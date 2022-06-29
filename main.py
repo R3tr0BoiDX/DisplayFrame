@@ -68,7 +68,7 @@ class Main:
 
         if platform.processor() != "x86_64":
             self.matrix = matrix.Matrix()
-            display_digit(0, self.matrix)
+            display_digit(0, self.matrix.leds)
 
         while True:
             pass
