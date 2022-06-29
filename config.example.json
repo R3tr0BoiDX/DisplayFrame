@@ -1,0 +1,7 @@
+{
+  "lat": LAT,
+  "lon": LON,
+  "units": UNITS,
+  "lang": LANG,
+  "appid": API_ID
+}
