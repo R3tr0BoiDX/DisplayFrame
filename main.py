@@ -1,4 +1,5 @@
 import platform
+import threading
 
 from PIL import Image
 
@@ -73,15 +74,16 @@ def display_misc(leds, name, x_offset=0, y_offset=0):
     display_resource(leds, image, x_offset, y_offset)
 
 
-def display_time(leds, time):
+def display_time(leds, time, colon):
     colon_offset = 0
     for i in range(len(time)):
         if i == 2:
-            display_misc(
-                leds,
-                "colon",
-                x_offset=(i * graphics.DIGIT_IMAGE_WIDTH) + 1
-            )
+            if colon:
+                display_misc(
+                    leds,
+                    "colon",
+                    x_offset=(i * graphics.DIGIT_IMAGE_WIDTH) + 1
+                )
             colon_offset = 2
 
         display_digit(
@@ -92,6 +94,12 @@ def display_time(leds, time):
 
 
 class Main:
+
+    def show_time(self):
+        threading.Timer(1, self.show_time).start()
+        display_time(self.matrix.leds, get_current_time(), self.colon)
+        self.colon = not self.colon
+
     def signal_handler(self, sig, frame):
         self.matrix.finish()
         sys.exit(0)
@@ -99,16 +107,14 @@ class Main:
     def __init__(self):
         signal.signal(signal.SIGINT, self.signal_handler)
 
+        self.colon = False
+
         if platform.processor() != "x86_64":
             self.matrix = matrix.Matrix()
-            display_time(self.matrix.leds, get_current_time())
-
-        while True:
-            pass
+            self.show_time()
 
 
 if __name__ == '__main__':
-    print(platform.processor())
     config = read_config()
     json_text = request_weather(config)
     data = json.loads(json_text)
