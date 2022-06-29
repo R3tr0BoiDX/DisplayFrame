@@ -53,7 +53,7 @@ class Main:
     def __init__(self):
         signal.signal(signal.SIGINT, self.signal_handler)
 
-        self.matrix = display.Display()
+        self.matrix = display.Display().pixel
         display.colorWipe(self.matrix, Color(24, 0, 0))
 
 
