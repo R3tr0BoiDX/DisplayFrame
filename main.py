@@ -1,4 +1,8 @@
-import display
+import platform
+
+from PIL import Image
+
+import matrix
 import graphics
 
 import requests
@@ -46,10 +50,11 @@ def help_config():
 
 
 def display_digit(digit, leds):
-    image = graphics.get_image(digit)
-    print(image.size())
-    # for x in range(image.):
-    #   for y in range(LED_HEIGHT):
+    image = Image.open(graphics.digit(digit))
+    pixel = image.load()
+    for x in range(image.width):
+        for y in range(image.height):
+            matrix.setPixel(x, y, pixel[x, y], leds)
 
 
 class Main:
@@ -60,12 +65,17 @@ class Main:
     def __init__(self):
         signal.signal(signal.SIGINT, self.signal_handler)
 
-        self.matrix = display.Display()
-        display_digit(0, self.matrix)
-        display.colorWipe(self.matrix.leds, Color(24, 0, 0))
+        if platform.processor() != "x86_64":
+            self.matrix = matrix.Matrix()
+
+        display_digit(0, self.matrix.leds)
+        while True:
+            pass
+        matrix.colorWipe(self.matrix.leds, Color(24, 0, 0))
 
 
 if __name__ == '__main__':
+    print(platform.processor())
     config = read_config()
     json_text = request_weather(config)
     data = json.loads(json_text)

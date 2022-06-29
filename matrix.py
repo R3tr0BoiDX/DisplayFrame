@@ -35,18 +35,18 @@ def setPixel(x, y, color, leds):
     leds.setPixelColor(ledMatrixTranslation(x, y), color)
 
 
-def ledMatrixTranslation(_x, _y):
-    if numberIsEven(_x):
-        return _x * LED_HEIGHT + _y
+def ledMatrixTranslation(x, y):
+    if numberIsEven(x):
+        return x * LED_HEIGHT + y
     else:
-        return _x * LED_HEIGHT + LED_HEIGHT - 1 - _y
+        return x * LED_HEIGHT + LED_HEIGHT - 1 - y
 
 
-def numberIsEven(_number):
-    return _number % 2 == 0
+def numberIsEven(number):
+    return number % 2 == 0
 
 
-class Display:
+class Matrix:
 
     def __init__(self):
         # Create pixel object
