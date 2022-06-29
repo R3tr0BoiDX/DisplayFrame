@@ -50,7 +50,7 @@ def help_config():
     print("See https://openweathermap.org/current for valid config entries")
 
 
-def display_resource(leds, image, x_offset=0, y_offset=0):
+def display_resource(leds, image, x_offset=0, y_offset=0, render=True):
     pixel = image.convert("RGB")
     for x in range(image.width):
         for y in range(image.height):
@@ -61,21 +61,23 @@ def display_resource(leds, image, x_offset=0, y_offset=0):
                 Color(r, g, b),
                 leds
             )
-    leds.show()
+
+    if render:
+        leds.show()
 
 
-def display_digit(leds, digit, x_offset=0, y_offset=0):
+def display_digit(leds, digit, x_offset=0, y_offset=0, render=True):
     image = Image.open(graphics.digit(digit))
-    display_resource(leds, image, x_offset, y_offset)
+    display_resource(leds, image, x_offset, y_offset, render=render)
 
 
-def display_misc(leds, name, x_offset=0, y_offset=0):
+def display_misc(leds, name, x_offset=0, y_offset=0, render=True):
     image = Image.open(graphics.misc(name))
-    display_resource(leds, image, x_offset, y_offset)
+    display_resource(leds, image, x_offset, y_offset, render=render)
 
 
 def display_time(leds, time, colon):
-    # matrix.flush(leds)
+    matrix.flush(leds)
 
     colon_offset = 0
     for i in range(len(time)):
@@ -84,15 +86,18 @@ def display_time(leds, time, colon):
                 display_misc(
                     leds,
                     "colon",
-                    x_offset=(i * graphics.DIGIT_IMAGE_WIDTH) + 1
+                    x_offset=(i * graphics.DIGIT_IMAGE_WIDTH) + 1,
+                    render=False
                 )
             colon_offset = 2
 
         display_digit(
             leds,
             time[i],
-            x_offset=(i * graphics.DIGIT_IMAGE_WIDTH) + colon_offset
+            x_offset=(i * graphics.DIGIT_IMAGE_WIDTH) + colon_offset,
+            render=False
         )
+    leds.show()
 
 
 class Main:
