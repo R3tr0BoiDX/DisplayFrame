@@ -1,13 +1,13 @@
-import json
+import display
+import graphics
 
 import requests
-from datetime import datetime
-
-from rpi_ws281x import Color
-
-import display
+import json
 import signal
 import sys
+
+from datetime import datetime
+from rpi_ws281x import Color
 
 URL = "https://api.openweathermap.org/data/2.5/weather"
 TEST_URL = "https://httpbin.org/get"
@@ -43,6 +43,13 @@ def read_config():
 def help_config():
     print("You need to config the config.json. You can use the config.example.json as starting point")
     print("See https://openweathermap.org/current for valid config entries")
+
+
+def display_digit(digit, leds):
+    image = graphics.get_image(digit)
+    print(image.size())
+    # for x in range(image.):
+    #   for y in range(LED_HEIGHT):
 
 
 class Main:

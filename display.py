@@ -59,6 +59,7 @@ class Display:
             strip_type=STRIP_TYPE
         )
         self.leds.begin()
+        clear(self.leds)
 
     def finish(self):
         clear(self.leds)
