@@ -13,6 +13,8 @@ import weather
 
 UPDATE_WEATHER_CODE_INTERVAL = 120  # in seconds
 
+X_OFFSET_START = 2
+Y_OFFSET_START = 0
 
 def get_current_time():
     now = datetime.now()
@@ -25,8 +27,8 @@ def display_resource(leds, image, x_offset=0, y_offset=0, render=True):
         for y in range(image.height):
             r, g, b = pixel.getpixel((x, y))
             matrix.setPixel(
-                x + x_offset,
-                y + y_offset,
+                x + x_offset + X_OFFSET_START,
+                y + y_offset + Y_OFFSET_START,
                 Color(r, g, b),
                 leds
             )
