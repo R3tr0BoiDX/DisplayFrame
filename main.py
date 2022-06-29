@@ -114,6 +114,7 @@ class Main:
         if platform.processor() != "x86_64":
             self.matrix = matrix.Matrix()
             self.show_time()
+            display_weather(self.matrix.leds)
 
 
 if __name__ == '__main__':
