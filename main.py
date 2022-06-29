@@ -49,8 +49,7 @@ def help_config():
     print("See https://openweathermap.org/current for valid config entries")
 
 
-def display_digit(leds, digit, x_offset=0, y_offset=0):
-    image = Image.open(graphics.digit(digit))
+def display_resource(leds, image, x_offset=0, y_offset=0):
     pixel = image.convert("RGB")
     for x in range(image.width):
         for y in range(image.height):
@@ -64,12 +63,31 @@ def display_digit(leds, digit, x_offset=0, y_offset=0):
     leds.show()
 
 
+def display_digit(leds, digit, x_offset=0, y_offset=0):
+    image = Image.open(graphics.digit(digit))
+    display_resource(leds, image, x_offset, y_offset)
+
+
+def display_misc(leds, name, x_offset=0, y_offset=0):
+    image = Image.open(graphics.misc(name))
+    display_resource(leds, image, x_offset, y_offset)
+
+
 def display_time(leds, time):
+    colon_offset = 0
     for i in range(len(time)):
+        if i == 2:
+            display_misc(
+                leds,
+                "colon",
+                x_offset=(i * graphics.DIGIT_IMAGE_WIDTH)
+            )
+            colon_offset = 2
+
         display_digit(
             leds,
             time[i],
-            x_offset=i * graphics.DIGIT_IMAGE_WIDTH
+            x_offset=(i * graphics.DIGIT_IMAGE_WIDTH) + colon_offset
         )
 
 
