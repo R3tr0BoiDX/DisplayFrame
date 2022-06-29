@@ -75,7 +75,7 @@ def display_misc(leds, name, x_offset=0, y_offset=0):
 
 
 def display_time(leds, time, colon):
-    matrix.flush(leds)
+    # matrix.flush(leds)
 
     colon_offset = 0
     for i in range(len(time)):
@@ -120,8 +120,7 @@ if __name__ == '__main__':
     config = read_config()
     json_text = request_weather(config)
     data = json.loads(json_text)
-
-    code = get_weather_icon_code(data)
-    print(code)
+    # code = get_weather_icon_code(data)
+    # print(code)
 
     Main()
