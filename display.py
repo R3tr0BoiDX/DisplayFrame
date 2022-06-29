@@ -1,6 +1,6 @@
 import time
 import _rpi_ws281x
-from rpi_ws281x import PixelStrip, Color
+from rpi_ws281x import PixelStrip
 
 LED_HEIGHT = 8
 LED_WIDTH = 32
