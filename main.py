@@ -2,6 +2,7 @@ import json
 
 import requests
 from datetime import datetime
+import display
 
 URL = "https://api.openweathermap.org/data/2.5/weather"
 TEST_URL = "https://httpbin.org/get"
@@ -49,3 +50,5 @@ if __name__ == '__main__':
 
     print(code)
     print(time)
+
+    matrix = display.Display()
