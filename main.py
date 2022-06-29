@@ -64,6 +64,15 @@ def display_digit(leds, digit, x_offset=0, y_offset=0):
     leds.show()
 
 
+def display_time(leds, time):
+    for i in range(len(time)):
+        display_digit(
+            leds,
+            time[i],
+            x_offset=i * graphics.DIGIT_IMAGE_WIDTH
+        )
+
+
 class Main:
     def signal_handler(self, sig, frame):
         self.matrix.finish()
@@ -74,7 +83,7 @@ class Main:
 
         if platform.processor() != "x86_64":
             self.matrix = matrix.Matrix()
-            display_digit(self.matrix.leds, 0, x_offset=4)
+            display_time(self.matrix.leds, get_current_time())
 
         while True:
             pass
@@ -87,9 +96,6 @@ if __name__ == '__main__':
     data = json.loads(json_text)
 
     code = get_weather_icon_code(data)
-    time = get_current_time()
-
     print(code)
-    print(time)
 
     Main()

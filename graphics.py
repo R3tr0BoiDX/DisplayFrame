@@ -9,6 +9,10 @@ NIGHT = "night"
 
 IMAGE_FILE_EXTENSION = ".png"
 
+IMAGE_HEIGHT = 8
+DIGIT_IMAGE_WIDTH = 4
+WEATHER_IMAGE_WIDTH = 6
+
 
 def digit(dig):
     return f"./{RESOURCES}/{DIGITS}/{str(dig)}{IMAGE_FILE_EXTENSION}"
