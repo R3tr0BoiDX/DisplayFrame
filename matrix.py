@@ -31,6 +31,11 @@ def clear(leds):
     leds.show()
 
 
+def flush(leds):
+    for i in range(leds.numPixels()):
+        leds.setPixelColor(i, Color(0, 0, 0))
+
+
 def setPixel(x, y, color, leds):
     leds.setPixelColor(ledMatrixTranslation(x, y), color)
 
