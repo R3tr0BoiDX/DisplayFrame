@@ -15,11 +15,33 @@ BRIGHTNESS = 24
 CHANNEL = 0
 
 
-def colorWipe(strip, color, wait_ms=50):
-    for i in range(strip.numPixels()):
-        strip.setPixelColor(i, color)
-        strip.show()
-        time.sleep(wait_ms / 1000.0)
+def colorWipe(leds, color, wait_ms=50):
+    for x in range(LED_WIDTH):
+        for y in range(LED_HEIGHT):
+            setPixel(x, y, color, leds)
+            leds.show()
+            time.sleep(wait_ms / 1000.0)
+
+
+def clear(leds):
+    for i in range(leds.numPixels()):
+        leds.setPixelColor(i, Color(0, 0, 0))
+    leds.show()
+
+
+def setPixel(x, y, color, leds):
+    leds.setPixelColor(ledMatrixTranslation(x, y), color)
+
+
+def ledMatrixTranslation(_x, _y):
+    if numberIsEven(_x):
+        return _x * LED_HEIGHT + _y
+    else:
+        return _x * LED_HEIGHT + LED_HEIGHT - 1 - _y
+
+
+def numberIsEven(_number):
+    return _number % 2 == 0
 
 
 class Display:
@@ -39,7 +61,4 @@ class Display:
         self.leds.begin()
 
     def finish(self):
-        if self.leds is not None:
-            for i in range(self.leds.numPixels()):
-                self.leds.setPixelColor(i, Color(0, 0, 0))
-            self.leds.show()
+        clear(self.leds)
