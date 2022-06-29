@@ -1,6 +1,5 @@
 import platform
 import threading
-import json
 import signal
 import sys
 
@@ -12,20 +11,12 @@ import matrix
 import graphics
 import weather
 
+UPDATE_WEATHER_CODE_INTERVAL = 120  # in seconds
+
 
 def get_current_time():
     now = datetime.now()
     return now.strftime("%H%M")
-
-
-def read_config():
-    with open('config.json') as f:
-        return json.load(f)
-
-
-def help_config():
-    print("You need to config the config.json. You can use the config.example.json as starting point")
-    print("See https://openweathermap.org/current for valid config entries")
 
 
 def display_resource(leds, image, x_offset=0, y_offset=0, render=True):
@@ -49,7 +40,7 @@ def display_digit(leds, digit, x_offset=0, y_offset=0, render=True):
     display_resource(leds, image, x_offset, y_offset, render=render)
 
 
-def display_weather_condition(leds, code, x_offset=0, y_offset=0, render=True):
+def display_weather(leds, code, x_offset=0, y_offset=0, render=True):
     image = Image.open(graphics.weather(code))
     display_resource(leds, image, x_offset, y_offset, render=render)
 
@@ -59,19 +50,7 @@ def display_misc(leds, name, x_offset=0, y_offset=0, render=True):
     display_resource(leds, image, x_offset, y_offset, render=render)
 
 
-def display_weather(leds):
-    config = read_config()
-    json_text = weather.request_weather(config)
-    data = json.loads(json_text)
-    code = weather.get_weather_icon_code(data)
-    display_weather_condition(
-        leds,
-        code,
-        x_offset=20
-    )
-
-
-def display_time(leds, time, colon):
+def display_time(leds, time, colon, render=True):
     matrix.flush(leds)
 
     colon_offset = 0
@@ -92,15 +71,30 @@ def display_time(leds, time, colon):
             x_offset=(i * graphics.DIGIT_IMAGE_WIDTH) + colon_offset,
             render=False
         )
-    leds.show()
+
+    if render:
+        leds.show()
 
 
 class Main:
 
     def show_time(self):
-        threading.Timer(1, self.show_time).start()
-        display_time(self.matrix.leds, get_current_time(), self.colon)
+        display_time(self.matrix.leds, get_current_time(), self.colon, render=False)
         self.colon = not self.colon
+
+    def show_weather(self):
+        display_weather(self.matrix.leds, self.weatherCode, x_offset=20, render=False)
+        pass
+
+    def show_all(self):
+        threading.Timer(1, self.show_all).start()
+        self.show_time()
+        self.show_weather()
+        self.matrix.leds.show()
+
+    def update_weather_code(self):
+        threading.Timer(UPDATE_WEATHER_CODE_INTERVAL, self.update_weather_code).start()
+        self.weatherCode = weather.get_weather_code()
 
     def signal_handler(self, sig, frame):
         self.matrix.finish()
@@ -110,6 +104,7 @@ class Main:
         signal.signal(signal.SIGINT, self.signal_handler)
 
         self.colon = False
+        self.weatherCode = weather.get_weather_code()
 
         if platform.processor() != "x86_64":
             self.matrix = matrix.Matrix()

@@ -1,4 +1,3 @@
-import time
 import _rpi_ws281x as ws281x
 from rpi_ws281x import PixelStrip, Color
 
@@ -11,18 +10,8 @@ DMA = 10
 LED_COUNT = (LED_WIDTH * LED_HEIGHT)
 STRIP_TYPE = ws281x.WS2812_STRIP
 INVERTED = False
-BRIGHTNESS = 1
+BRIGHTNESS = 2
 CHANNEL = 0
-
-
-# ./aseprite -b /home/mirco/Bilder/Grafikdesign/DisplayFrame.aseprite --save-as {slice}.png
-
-def colorWipe(leds, color, wait_ms=50):
-    for x in range(LED_WIDTH):
-        for y in range(LED_HEIGHT):
-            setPixel(x, y, color, leds)
-            leds.show()
-            time.sleep(wait_ms / 1000.0)
 
 
 def clear(leds):

@@ -1,4 +1,4 @@
-from PIL import Image
+# ./aseprite -b ./DisplayFrame.aseprite --save-as {slice}.png
 
 RESOURCES = "res"
 DIGITS = "digits"
