@@ -37,8 +37,6 @@ class Display:
             strip_type=STRIP_TYPE
         )
         self.pixel.begin()
-        while True:
-            colorWipe(self.pixel, Color(255, 0, 0))
 
     def finish(self):
         self.pixel._cleanup()

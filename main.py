@@ -2,6 +2,9 @@ import json
 
 import requests
 from datetime import datetime
+
+from rpi_ws281x import Color
+
 import display
 import signal
 import sys
@@ -44,12 +47,14 @@ def help_config():
 
 class Main:
     def signal_handler(self, sig, frame):
-        self.matrix.finish();
+        self.matrix.finish()
         sys.exit(0)
 
     def __init__(self):
         signal.signal(signal.SIGINT, self.signal_handler)
+
         self.matrix = display.Display()
+        self.matrix.pixel, Color(255, 0, 0)
 
 
 if __name__ == '__main__':
