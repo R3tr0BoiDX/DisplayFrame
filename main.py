@@ -56,6 +56,7 @@ def display_digit(digit, leds):
         for y in range(image.height):
             r, g, b = pixel.getpixel((x, y))
             matrix.setPixel(x, y, Color(r, g, b), leds)
+    leds.show()
 
 
 class Main:
