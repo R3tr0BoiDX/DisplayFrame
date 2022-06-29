@@ -80,9 +80,9 @@ def display_time(leds, time):
             display_misc(
                 leds,
                 "colon",
-                x_offset=(i * graphics.DIGIT_IMAGE_WIDTH)
+                x_offset=(i * graphics.DIGIT_IMAGE_WIDTH) + 1
             )
-            colon_offset = 2
+            colon_offset = 1
 
         display_digit(
             leds,
