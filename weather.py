@@ -19,6 +19,7 @@ def request_weather(_config):
         "lang": _config["lang"],
         "appid": _config["appid"]
     }
+    print("Make API call")
     return requests.get(URL, args).text
 
 
