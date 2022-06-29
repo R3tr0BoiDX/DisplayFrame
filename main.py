@@ -68,8 +68,8 @@ class Main:
 
         if platform.processor() != "x86_64":
             self.matrix = matrix.Matrix()
+            display_digit(0, self.matrix)
 
-        display_digit(0, 0)
         while True:
             pass
         matrix.colorWipe(self.matrix.leds, Color(24, 0, 0))
