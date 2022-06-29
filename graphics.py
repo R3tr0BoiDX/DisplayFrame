@@ -4,7 +4,7 @@ IMAGE_FILE_EXTENSION = ".png"
 
 
 def get_image(_name):
-    image = Image.open(_name + IMAGE_FILE_EXTENSION)
+    image = Image.open(str(_name) + IMAGE_FILE_EXTENSION)
     return image.load()
 
 
