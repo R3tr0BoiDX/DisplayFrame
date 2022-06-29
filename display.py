@@ -26,7 +26,19 @@ class Display:
 
     def __init__(self):
         # Create pixel object
-        self.pixel = PixelStrip(LED_COUNT, GPIO_PIN, TARGET_FREQ, DMA, INVERTED, BRIGHTNESS, CHANNEL)
+        self.pixel = PixelStrip(
+            LED_COUNT,
+            GPIO_PIN,
+            TARGET_FREQ,
+            DMA,
+            INVERTED,
+            BRIGHTNESS,
+            CHANNEL,
+            strip_type=STRIP_TYPE
+        )
         self.pixel.begin()
         while True:
             colorWipe(self.pixel, Color(255, 0, 0))
+
+    def finish(self):
+        self.pixel._cleanup()

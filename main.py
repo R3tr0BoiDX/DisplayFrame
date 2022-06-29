@@ -3,6 +3,8 @@ import json
 import requests
 from datetime import datetime
 import display
+import signal
+import sys
 
 URL = "https://api.openweathermap.org/data/2.5/weather"
 TEST_URL = "https://httpbin.org/get"
@@ -40,6 +42,16 @@ def help_config():
     print("See https://openweathermap.org/current for valid config entries")
 
 
+class Main:
+    def signal_handler(self, sig, frame):
+        self.matrix.finish();
+        sys.exit(0)
+
+    def __init__(self):
+        signal.signal(signal.SIGINT, self.signal_handler)
+        self.matrix = display.Display()
+
+
 if __name__ == '__main__':
     config = read_config()
     json_text = request_weather(config)
@@ -51,4 +63,4 @@ if __name__ == '__main__':
     print(code)
     print(time)
 
-    matrix = display.Display()
+    Main()
