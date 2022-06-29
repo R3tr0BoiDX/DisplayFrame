@@ -82,7 +82,7 @@ def display_time(leds, time):
                 "colon",
                 x_offset=(i * graphics.DIGIT_IMAGE_WIDTH) + 1
             )
-            colon_offset = 1
+            colon_offset = 2
 
         display_digit(
             leds,
