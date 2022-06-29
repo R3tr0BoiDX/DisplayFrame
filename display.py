@@ -15,6 +15,8 @@ BRIGHTNESS = 24
 CHANNEL = 0
 
 
+# ./aseprite -b /home/mirco/Bilder/Grafikdesign/DisplayFrame.aseprite --save-as {slice}.png
+
 def colorWipe(leds, color, wait_ms=50):
     for x in range(LED_WIDTH):
         for y in range(LED_HEIGHT):
