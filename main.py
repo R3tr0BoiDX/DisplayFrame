@@ -2,8 +2,8 @@ import platform
 import threading
 import signal
 import sys
+import time
 
-from datetime import datetime
 from rpi_ws281x import Color
 from PIL import Image
 
@@ -17,8 +17,9 @@ X_OFFSET_START = 2
 Y_OFFSET_START = 0
 X_OFFSET_WEATHER = 21
 
+
 def get_current_time():
-    now = datetime.now()
+    now = time.localtime()
     return now.strftime("%H%M")
 
 
