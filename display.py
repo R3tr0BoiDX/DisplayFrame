@@ -1,6 +1,6 @@
 import time
 import _rpi_ws281x as ws281x
-from rpi_ws281x import PixelStrip
+from rpi_ws281x import PixelStrip, Color
 
 LED_HEIGHT = 8
 LED_WIDTH = 32
@@ -40,6 +40,6 @@ class Display:
 
     def finish(self):
         if self.leds is not None:
-            ws281x.ws2811_fini(self.leds)
-            ws281x.delete_ws2811_t(self.leds)
-            self.leds = None
+            for i in range(self.leds.numPixels()):
+                self.leds.setPixelColor(i, Color(0, 0, 0))
+            self.leds.show()
