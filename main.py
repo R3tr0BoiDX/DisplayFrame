@@ -50,7 +50,7 @@ def help_config():
 
 
 def display_digit(digit, leds):
-    image = Image.open(graphics.day("01d"))
+    image = Image.open(graphics.digit(digit))
     pixel = image.convert("RGB")
     for x in range(image.width):
         for y in range(image.height):
@@ -73,7 +73,6 @@ class Main:
 
         while True:
             pass
-        matrix.colorWipe(self.matrix.leds, Color(24, 0, 0))
 
 
 if __name__ == '__main__':
