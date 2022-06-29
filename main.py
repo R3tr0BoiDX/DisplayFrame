@@ -15,6 +15,7 @@ UPDATE_WEATHER_CODE_INTERVAL = 120  # in seconds
 
 X_OFFSET_START = 2
 Y_OFFSET_START = 0
+X_OFFSET_WEATHER = 21
 
 def get_current_time():
     now = datetime.now()
@@ -85,7 +86,7 @@ class Main:
         self.colon = not self.colon
 
     def show_weather(self):
-        display_weather(self.matrix.leds, self.weatherCode, x_offset=20, render=False)
+        display_weather(self.matrix.leds, self.weatherCode, x_offset=X_OFFSET_WEATHER, render=False)
 
     def show_all(self):
         threading.Timer(1, self.show_all).start()
