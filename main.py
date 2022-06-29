@@ -20,7 +20,7 @@ X_OFFSET_WEATHER = 21
 
 def get_current_time():
     now = time.localtime()
-    return now.strftime("%H%M")
+    return time.strftime("%H%M", now)
 
 
 def display_resource(leds, image, x_offset=0, y_offset=0, render=True):
