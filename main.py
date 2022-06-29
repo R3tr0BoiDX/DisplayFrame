@@ -36,17 +36,17 @@ def display_resource(leds, image, x_offset=0, y_offset=0, render=True):
 
 
 def display_digit(leds, digit, x_offset=0, y_offset=0, render=True):
-    image = Image.open(graphics.digit(digit))
+    image = Image.open(graphics.get_filepath(str(digit)))
     display_resource(leds, image, x_offset, y_offset, render=render)
 
 
 def display_weather(leds, code, x_offset=0, y_offset=0, render=True):
-    image = Image.open(graphics.weather(code))
+    image = Image.open(graphics.get_filepath(code))
     display_resource(leds, image, x_offset, y_offset, render=render)
 
 
 def display_misc(leds, name, x_offset=0, y_offset=0, render=True):
-    image = Image.open(graphics.misc(name))
+    image = Image.open(graphics.get_filepath(name))
     display_resource(leds, image, x_offset, y_offset, render=render)
 
 
@@ -108,6 +108,7 @@ class Main:
         if platform.processor() != "x86_64":
             self.matrix = matrix.Matrix()
             self.show_all()
+            self.update_weather_code()
 
 
 if __name__ == '__main__':
