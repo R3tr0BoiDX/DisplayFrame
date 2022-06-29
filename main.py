@@ -84,7 +84,6 @@ class Main:
 
     def show_weather(self):
         display_weather(self.matrix.leds, self.weatherCode, x_offset=20, render=False)
-        pass
 
     def show_all(self):
         threading.Timer(1, self.show_all).start()
@@ -108,8 +107,7 @@ class Main:
 
         if platform.processor() != "x86_64":
             self.matrix = matrix.Matrix()
-            self.show_time()
-            display_weather(self.matrix.leds)
+            self.show_all()
 
 
 if __name__ == '__main__':
