@@ -18,6 +18,13 @@ def digit(dig):
     return f"./{RESOURCES}/{DIGITS}/{str(dig)}{IMAGE_FILE_EXTENSION}"
 
 
+def weather(code):
+    if code[2] == 'd':
+        return day(code)
+    else:
+        return night(code)
+
+
 def day(code):
     return f"./{RESOURCES}/{WEATHER}/{DAY}/{code}{IMAGE_FILE_EXTENSION}"
 
@@ -28,9 +35,3 @@ def night(code):
 
 def misc(name):
     return f"./{RESOURCES}/{MISC}/{name}{IMAGE_FILE_EXTENSION}"
-
-
-class Graphics:
-
-    def __init__(self):
-        pass

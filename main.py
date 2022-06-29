@@ -1,38 +1,16 @@
 import platform
 import threading
-
-from PIL import Image
-
-import matrix
-import graphics
-
-import requests
 import json
 import signal
 import sys
 
 from datetime import datetime
 from rpi_ws281x import Color
+from PIL import Image
 
-URL = "https://api.openweathermap.org/data/2.5/weather"
-TEST_URL = "https://httpbin.org/get"
-
-
-def request_weather(_config):
-    args = {
-        'lat': _config["lat"],
-        'lon': _config["lon"],
-        "units": _config["units"],
-        "mode": "json",  # must always be json
-        "lang": _config["lang"],
-        "appid": _config["appid"]
-    }
-    return requests.get(URL, args).text
-
-
-def get_weather_icon_code(_data):
-    weather = _data["weather"]
-    return weather[0]["icon"]
+import matrix
+import graphics
+import weather
 
 
 def get_current_time():
@@ -71,9 +49,26 @@ def display_digit(leds, digit, x_offset=0, y_offset=0, render=True):
     display_resource(leds, image, x_offset, y_offset, render=render)
 
 
+def display_weather_condition(leds, code, x_offset=0, y_offset=0, render=True):
+    image = Image.open(graphics.weather(code))
+    display_resource(leds, image, x_offset, y_offset, render=render)
+
+
 def display_misc(leds, name, x_offset=0, y_offset=0, render=True):
     image = Image.open(graphics.misc(name))
     display_resource(leds, image, x_offset, y_offset, render=render)
+
+
+def display_weather(leds):
+    config = read_config()
+    json_text = weather.request_weather(config)
+    data = json.loads(json_text)
+    code = weather.get_weather_icon_code(data)
+    display_weather_condition(
+        leds,
+        code,
+        x_offset=20
+    )
 
 
 def display_time(leds, time, colon):
@@ -122,10 +117,4 @@ class Main:
 
 
 if __name__ == '__main__':
-    config = read_config()
-    json_text = request_weather(config)
-    data = json.loads(json_text)
-    # code = get_weather_icon_code(data)
-    # print(code)
-
     Main()
