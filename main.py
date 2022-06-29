@@ -49,13 +49,18 @@ def help_config():
     print("See https://openweathermap.org/current for valid config entries")
 
 
-def display_digit(digit, leds):
+def display_digit(leds, digit, x_offset=0, y_offset=0):
     image = Image.open(graphics.digit(digit))
     pixel = image.convert("RGB")
     for x in range(image.width):
         for y in range(image.height):
             r, g, b = pixel.getpixel((x, y))
-            matrix.setPixel(x, y, Color(r, g, b), leds)
+            matrix.setPixel(
+                x + x_offset,
+                y + y_offset,
+                Color(r, g, b),
+                leds
+            )
     leds.show()
 
 
@@ -69,7 +74,7 @@ class Main:
 
         if platform.processor() != "x86_64":
             self.matrix = matrix.Matrix()
-            display_digit(0, self.matrix.leds)
+            display_digit(self.matrix.leds, 0, x_offset=4)
 
         while True:
             pass
