@@ -75,7 +75,7 @@ def display_misc(leds, name, x_offset=0, y_offset=0):
 
 
 def display_time(leds, time, colon):
-    matrix.clear(leds)
+    matrix.flush(leds)
 
     colon_offset = 0
     for i in range(len(time)):
