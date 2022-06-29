@@ -19,7 +19,6 @@ def request_weather(_config):
         "lang": _config["lang"],
         "appid": _config["appid"]
     }
-    print("Make API call")
     return requests.get(URL, args).text
 
 
@@ -31,4 +30,6 @@ def get_weather_code_from_json(_data):
 def get_weather_code():
     json_raw = request_weather(read_config())
     data = json.loads(json_raw)
-    return get_weather_code_from_json(data)
+    code = get_weather_code_from_json(data)
+    print(f"Got weather code {code} from OpenWeather")
+    return code
