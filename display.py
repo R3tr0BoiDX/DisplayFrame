@@ -1,15 +1,15 @@
 import time
-import _rpi_ws281x
+import _rpi_ws281x as ws281x
 from rpi_ws281x import PixelStrip
 
 LED_HEIGHT = 8
 LED_WIDTH = 32
 
-TARGET_FREQ = _rpi_ws281x.WS2811_TARGET_FREQ
+TARGET_FREQ = ws281x.WS2811_TARGET_FREQ
 GPIO_PIN = 18
 DMA = 10
 LED_COUNT = (LED_WIDTH * LED_HEIGHT)
-STRIP_TYPE = _rpi_ws281x.WS2812_STRIP
+STRIP_TYPE = ws281x.WS2812_STRIP
 INVERTED = False
 BRIGHTNESS = 24
 CHANNEL = 0
@@ -26,7 +26,7 @@ class Display:
 
     def __init__(self):
         # Create pixel object
-        self.pixel = PixelStrip(
+        self.leds = PixelStrip(
             LED_COUNT,
             GPIO_PIN,
             TARGET_FREQ,
@@ -36,7 +36,10 @@ class Display:
             CHANNEL,
             strip_type=STRIP_TYPE
         )
-        self.pixel.begin()
+        self.leds.begin()
 
     def finish(self):
-        self.pixel._cleanup()
+        if self.leds is not None:
+            ws281x.ws2811_fini(self.leds)
+            ws281x.delete_ws2811_t(self.leds)
+            self.leds = None

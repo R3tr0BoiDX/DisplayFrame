@@ -54,7 +54,7 @@ class Main:
         signal.signal(signal.SIGINT, self.signal_handler)
 
         self.matrix = display.Display()
-        display.colorWipe(self.matrix.pixel, Color(24, 0, 0))
+        display.colorWipe(self.matrix.leds, Color(24, 0, 0))
 
 
 if __name__ == '__main__':
