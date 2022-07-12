@@ -1,15 +1,11 @@
-# DisplayFrame
-Show time and local weather
+# Display Frame
 
-## Config file
-This is needed to get the correct weather. You'll need an OpenWeather account and an API key (FREE!). Create and fill in the `config.json` with your settings. You can use the config.example.json as starting point. See https://openweathermap.org/current for valid config entries. An example for a valid config file could be:
-```json
-{
-  "lat": 51.19,
-  "lon": -1.82,
-  "units": "metric",
-  "lang": "en",
-  "appid": "9f5pksway3c7jb7q43n33o75u388i9hk"
-}
-```
-(Note: API key isn't real. That's a randomly generated example key.)
+This repo contains various effects to be displayed on a 32x8 LED matrix. More information within the resp. subdirectory.
+
+## Frame
+The (not yet available) 3D printable `matrix_frame.blend` (will be) is the frame for the matrix in case you want to print one for yourself. You'll also need a 335x95x5 mm dark tinted acrylic glass panel as well as a sheet of paper as diffusor at the same size.
+
+## To do and future ideas
+
+* color fade for clock
+* centralizing matrix class
