@@ -9,3 +9,5 @@ The (not yet available) 3D printable `matrix_frame.blend` (will be) is the frame
 
 * color fade for clock
 * centralizing matrix class
+* optimize and fix fire
+* use fire and random color as clock background
