@@ -1,4 +1,4 @@
-# DisplayFrame
+# Clock
 Show time and local weather
 
 ## Config file
