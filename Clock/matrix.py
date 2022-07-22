@@ -25,18 +25,22 @@ def flush(leds):
         leds.setPixelColor(i, Color(0, 0, 0))
 
 
-def setPixel(x, y, color, leds):
-    leds.setPixelColor(ledMatrixTranslation(x, y), color)
+def set_pixel(x, y, color, leds):
+    leds.setPixelColor(led_matrix_translation(x, y), color)
 
 
-def ledMatrixTranslation(x, y):
-    if numberIsEven(x):
+def set_brightness(brightness, leds):
+    leds.setBrightness(brightness)
+
+
+def led_matrix_translation(x, y):
+    if number_is_even(x):
         return x * LED_HEIGHT + y
     else:
         return x * LED_HEIGHT + LED_HEIGHT - 1 - y
 
 
-def numberIsEven(number):
+def number_is_even(number):
     return number % 2 == 0
 
 

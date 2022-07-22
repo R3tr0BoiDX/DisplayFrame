@@ -17,10 +17,21 @@ X_OFFSET_START = 2
 Y_OFFSET_START = 0
 X_OFFSET_WEATHER = 21
 
+DAY_BRIGHTNESS = 16
+NIGHT_BRIGHTNESS = 2
+
 
 def get_current_time():
     now = time.localtime()
     return time.strftime("%H%M", now)
+
+
+def get_current_brightness(current_weather_code):
+    daytime_indicator = current_weather_code[-1]
+    if daytime_indicator == 'd':
+        return DAY_BRIGHTNESS
+    else:
+        return NIGHT_BRIGHTNESS
 
 
 def display_resource(leds, image, x_offset=0, y_offset=0, render=True):
@@ -28,7 +39,7 @@ def display_resource(leds, image, x_offset=0, y_offset=0, render=True):
     for x in range(image.width):
         for y in range(image.height):
             r, g, b = pixel.getpixel((x, y))
-            matrix.setPixel(
+            matrix.set_pixel(
                 x + x_offset + X_OFFSET_START,
                 y + y_offset + Y_OFFSET_START,
                 Color(r, g, b),
@@ -89,10 +100,14 @@ class Main:
     def show_weather(self):
         display_weather(self.matrix.leds, self.weatherCode, x_offset=X_OFFSET_WEATHER, render=False)
 
+    def set_current_brightness(self):
+        matrix.set_brightness(get_current_brightness(self.weatherCode), self.matrix.leds)
+
     def show_all(self):
         threading.Timer(1, self.show_all).start()
         self.show_time()
         self.show_weather()
+        self.set_current_brightness()
         self.matrix.leds.show()
 
     def update_weather_code(self):
@@ -109,10 +124,9 @@ class Main:
         self.colon = False
         self.weatherCode = weather.get_weather_code()
 
-        if platform.processor() != "x86_64":
-            self.matrix = matrix.Matrix()
-            self.show_all()
-            self.update_weather_code()
+        self.matrix = matrix.Matrix()
+        self.show_all()
+        self.update_weather_code()
 
 
 if __name__ == '__main__':
