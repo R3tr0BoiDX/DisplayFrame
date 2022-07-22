@@ -31,5 +31,4 @@ def get_weather_code():
     json_raw = request_weather(read_config())
     data = json.loads(json_raw)
     code = get_weather_code_from_json(data)
-    print(f"Got weather code {code} from OpenWeather")
     return code
