@@ -1,13 +1,14 @@
-import threading
 import signal
+import socket
 import sys
+import threading
 import time
 
-from rpi_ws281x import Color
 from PIL import Image
+from rpi_ws281x import Color
 
-import matrix
 import graphics
+import matrix
 import weather
 
 UPDATE_WEATHER_CODE_INTERVAL = 120  # in seconds
@@ -19,6 +20,26 @@ X_OFFSET_WEATHER = 21
 DAY_BRIGHTNESS = 16
 NIGHT_BRIGHTNESS = 2
 
+INTERNET_LED = (0, 32)
+INTERNET_COLOR_DISCONNECTED = Color(255, 0, 0)
+INTERNET_COLOR_CONNECTED = Color(0, 255, 0)
+
+
+def check_internet_connection(host="8.8.8.8", port=53, timeout=3):
+    """
+    Host: 8.8.8.8 (google-public-dns-a.google.com)
+    OpenPort: 53/tcp
+    Service: domain (DNS/TCP)
+    From https://stackoverflow.com/a/33117579
+    """
+    try:
+        socket.setdefaulttimeout(timeout)
+        socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect((host, port))
+        return True
+    except socket.error as ex:
+        print(ex)
+        return False
+
 
 def get_current_time():
     now = time.localtime()
@@ -27,13 +48,17 @@ def get_current_time():
 
 def get_current_brightness(_sun):
     now = int(time.time())
-
     if _sun[0] < now < _sun[1]:
-        print("It's night!")
         return DAY_BRIGHTNESS
     else:
-        print("It's day!")
         return NIGHT_BRIGHTNESS
+
+
+def set_specific_led(leds, index, color, render=True):
+    matrix.set_pixel(index[0], index[1], color, leds)
+
+    if render:
+        leds.show()
 
 
 def display_resource(leds, image, x_offset=0, y_offset=0, render=True):
@@ -102,6 +127,10 @@ class Main:
     def show_weather(self):
         display_weather(self.matrix.leds, self.weatherCode, x_offset=X_OFFSET_WEATHER, render=False)
 
+    def show_status_indicator(self):
+        color = INTERNET_COLOR_DISCONNECTED if check_internet_connection() else INTERNET_COLOR_CONNECTED
+        set_specific_led(self.matrix.leds, INTERNET_LED, color, render=False)
+
     def set_current_brightness(self):
         matrix.set_brightness(get_current_brightness(self.sun), self.matrix.leds)
 
@@ -109,6 +138,7 @@ class Main:
         threading.Timer(1, self.show_all).start()
         self.show_time()
         self.show_weather()
+        self.show_status_indicator()
         self.set_current_brightness()
         self.matrix.leds.show()
 
