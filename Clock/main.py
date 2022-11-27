@@ -20,9 +20,9 @@ X_OFFSET_WEATHER = 21
 DAY_BRIGHTNESS = 16
 NIGHT_BRIGHTNESS = 2
 
-INTERNET_LED = (1, 1)
-INTERNET_COLOR_DISCONNECTED = Color(255, 0, 0)
-INTERNET_COLOR_CONNECTED = Color(0, 255, 0)
+INTERNET_LED = (32, -8)  # todo: indexing in last column is broken
+INTERNET_COLOR_DISCONNECTED = Color(255, 0, 0)  # red
+INTERNET_COLOR_CONNECTED = Color(0, 0, 0)  # black
 
 
 def check_internet_connection(host="8.8.8.8", port=53, timeout=3):
