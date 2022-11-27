@@ -20,7 +20,7 @@ X_OFFSET_WEATHER = 21
 DAY_BRIGHTNESS = 16
 NIGHT_BRIGHTNESS = 2
 
-INTERNET_LED = (0, 32)
+INTERNET_LED = (1, 32)
 INTERNET_COLOR_DISCONNECTED = Color(255, 0, 0)
 INTERNET_COLOR_CONNECTED = Color(0, 255, 0)
 
@@ -30,7 +30,7 @@ def check_internet_connection(host="8.8.8.8", port=53, timeout=3):
     Host: 8.8.8.8 (google-public-dns-a.google.com)
     OpenPort: 53/tcp
     Service: domain (DNS/TCP)
-    From https://stackoverflow.com/a/33117579
+    By 7h3rAm from https://stackoverflow.com/a/33117579
     """
     try:
         socket.setdefaulttimeout(timeout)
@@ -128,7 +128,7 @@ class Main:
         display_weather(self.matrix.leds, self.weatherCode, x_offset=X_OFFSET_WEATHER, render=False)
 
     def show_status_indicator(self):
-        color = INTERNET_COLOR_DISCONNECTED if check_internet_connection() else INTERNET_COLOR_CONNECTED
+        color = INTERNET_COLOR_CONNECTED if check_internet_connection() else INTERNET_COLOR_DISCONNECTED
         set_specific_led(self.matrix.leds, INTERNET_LED, color, render=False)
 
     def set_current_brightness(self):
