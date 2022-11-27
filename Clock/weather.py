@@ -22,13 +22,21 @@ def request_weather(_config):
     return requests.get(URL, args).text
 
 
-def get_weather_code_from_json(_data):
+def get_weather_code(_data):
     weather = _data["weather"]
     return weather[0]["icon"]
 
 
-def get_weather_code():
+def get_sunset_and_rise(_data):
+    sys = _data["sys"]
+    sunrise = int(sys["sunrise"])
+    sunset = int(sys["sunset"])
+    return sunrise, sunset
+
+
+def get_weather_and_sun():
     json_raw = request_weather(read_config())
     data = json.loads(json_raw)
-    code = get_weather_code_from_json(data)
-    return code
+    weather_code = get_weather_code(data)
+    sun = get_sunset_and_rise(data)
+    return weather_code, sun

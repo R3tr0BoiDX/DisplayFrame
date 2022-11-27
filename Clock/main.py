@@ -1,4 +1,3 @@
-import platform
 import threading
 import signal
 import sys
@@ -26,11 +25,14 @@ def get_current_time():
     return time.strftime("%H%M", now)
 
 
-def get_current_brightness(current_weather_code):
-    daytime_indicator = current_weather_code[-1]
-    if daytime_indicator == 'd':
+def get_current_brightness(_sun):
+    now = int(time.time())
+
+    if _sun[0] < now < _sun[1]:
+        print("It's night!")
         return DAY_BRIGHTNESS
     else:
+        print("It's day!")
         return NIGHT_BRIGHTNESS
 
 
@@ -101,7 +103,7 @@ class Main:
         display_weather(self.matrix.leds, self.weatherCode, x_offset=X_OFFSET_WEATHER, render=False)
 
     def set_current_brightness(self):
-        matrix.set_brightness(get_current_brightness(self.weatherCode), self.matrix.leds)
+        matrix.set_brightness(get_current_brightness(self.sun), self.matrix.leds)
 
     def show_all(self):
         threading.Timer(1, self.show_all).start()
@@ -110,9 +112,11 @@ class Main:
         self.set_current_brightness()
         self.matrix.leds.show()
 
-    def update_weather_code(self):
-        threading.Timer(UPDATE_WEATHER_CODE_INTERVAL, self.update_weather_code).start()
-        self.weatherCode = weather.get_weather_code()
+    def update_weather_and_sun(self):
+        threading.Timer(UPDATE_WEATHER_CODE_INTERVAL, self.update_weather_and_sun).start()
+        weather_and_sun = weather.get_weather_and_sun()
+        self.weatherCode = weather_and_sun[0]
+        self.sun = weather_and_sun[1]
 
     def signal_handler(self, sig, frame):
         self.matrix.finish()
@@ -122,11 +126,13 @@ class Main:
         signal.signal(signal.SIGINT, self.signal_handler)
 
         self.colon = False
-        self.weatherCode = weather.get_weather_code()
+        weather_and_sun = weather.get_weather_and_sun()
+        self.weatherCode = weather_and_sun[0]
+        self.sun = weather_and_sun[1]
 
         self.matrix = matrix.Matrix()
         self.show_all()
-        self.update_weather_code()
+        self.update_weather_and_sun()
 
 
 if __name__ == '__main__':
