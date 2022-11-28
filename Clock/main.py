@@ -11,7 +11,8 @@ import graphics
 import matrix
 import weather
 
-UPDATE_WEATHER_CODE_INTERVAL = 120  # in seconds
+REQUEST_DATA_INTERVAL = 120  # in seconds
+UPDATE_INTERNET_STATUS_INTERVAL = 3  # in seconds
 
 X_OFFSET_START = 2
 Y_OFFSET_START = 0
@@ -36,8 +37,7 @@ def check_internet_connection(host="8.8.8.8", port=53, timeout=3):
         socket.setdefaulttimeout(timeout)
         socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect((host, port))
         return True
-    except socket.error as ex:
-        print(ex)
+    except socket.error:
         return False
 
 
@@ -128,8 +128,8 @@ class Main:
         display_weather(self.matrix.leds, self.weatherCode, x_offset=X_OFFSET_WEATHER, render=False)
 
     def show_status_indicator(self):
-        color = INTERNET_COLOR_CONNECTED if check_internet_connection() else INTERNET_COLOR_DISCONNECTED
-        set_specific_led(self.matrix.leds, INTERNET_LED, color, render=False)
+        internet_status_color = INTERNET_COLOR_CONNECTED if self.internet_status else INTERNET_COLOR_DISCONNECTED
+        set_specific_led(self.matrix.leds, INTERNET_LED, internet_status_color, render=False)
 
     def set_current_brightness(self):
         matrix.set_brightness(get_current_brightness(self.sun), self.matrix.leds)
@@ -143,10 +143,14 @@ class Main:
         self.matrix.leds.show()
 
     def update_weather_and_sun(self):
-        threading.Timer(UPDATE_WEATHER_CODE_INTERVAL, self.update_weather_and_sun).start()
+        threading.Timer(REQUEST_DATA_INTERVAL, self.update_weather_and_sun).start()
         weather_and_sun = weather.get_weather_and_sun()
         self.weatherCode = weather_and_sun[0]
         self.sun = weather_and_sun[1]
+
+    def update_internet_connection(self):
+        threading.Timer(UPDATE_INTERNET_STATUS_INTERVAL, self.update_internet_connection).start()
+        self.internet_status = check_internet_connection()
 
     def signal_handler(self, sig, frame):
         self.matrix.finish()
@@ -156,6 +160,8 @@ class Main:
         signal.signal(signal.SIGINT, self.signal_handler)
 
         self.colon = False
+        self.internet_status = check_internet_connection()
+
         weather_and_sun = weather.get_weather_and_sun()
         self.weatherCode = weather_and_sun[0]
         self.sun = weather_and_sun[1]
