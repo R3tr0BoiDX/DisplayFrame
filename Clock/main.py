@@ -9,6 +9,7 @@ from rpi_ws281x import Color
 
 import graphics
 import matrix
+import u131sync
 import weather
 
 REQUEST_DATA_INTERVAL = 120  # in seconds
@@ -54,14 +55,17 @@ def get_current_brightness(_sun):
         return NIGHT_BRIGHTNESS
 
 
-def set_specific_led(leds, index, color, render=True):
+def set_specific_led(leds, index, color, sync, render=True):
+    print(color)
+    print(sync.get_latest_color())
+
     matrix.set_pixel(index[0], index[1], color, leds)
 
     if render:
         leds.show()
 
 
-def display_resource(leds, image, x_offset=0, y_offset=0, render=True):
+def display_resource(leds, image, sync, x_offset=0, y_offset=0, render=True):
     pixel = image.convert("RGB")
     for x in range(image.width):
         for y in range(image.height):
@@ -77,31 +81,32 @@ def display_resource(leds, image, x_offset=0, y_offset=0, render=True):
         leds.show()
 
 
-def display_digit(leds, digit, x_offset=0, y_offset=0, render=True):
+def display_digit(leds, digit, sync, x_offset=0, y_offset=0, render=True):
     image = Image.open(graphics.get_filepath(str(digit)))
-    display_resource(leds, image, x_offset, y_offset, render=render)
+    display_resource(leds, image, sync, x_offset, y_offset, render=render)
 
 
-def display_weather(leds, code, x_offset=0, y_offset=0, render=True):
+def display_weather(leds, code, sync, x_offset=0, y_offset=0, render=True):
     image = Image.open(graphics.get_filepath(code))
-    display_resource(leds, image, x_offset, y_offset, render=render)
+    display_resource(leds, image, sync, x_offset, y_offset, render=render)
 
 
-def display_misc(leds, name, x_offset=0, y_offset=0, render=True):
+def display_misc(leds, name, sync, x_offset=0, y_offset=0, render=True):
     image = Image.open(graphics.get_filepath(name))
-    display_resource(leds, image, x_offset, y_offset, render=render)
+    display_resource(leds, image, sync, x_offset, y_offset, render=render)
 
 
-def display_time(leds, time, colon, render=True):
+def display_time(leds, cur_time, sync, colon, render=True):
     matrix.flush(leds)
 
     colon_offset = 0
-    for i in range(len(time)):
+    for i in range(len(cur_time)):
         if i == 2:
             if colon:
                 display_misc(
                     leds,
                     "colon",
+                    sync,
                     x_offset=(i * graphics.DIGIT_IMAGE_WIDTH) + 1,
                     render=False
                 )
@@ -109,7 +114,8 @@ def display_time(leds, time, colon, render=True):
 
         display_digit(
             leds,
-            time[i],
+            cur_time[i],
+            sync,
             x_offset=(i * graphics.DIGIT_IMAGE_WIDTH) + colon_offset,
             render=False
         )
@@ -121,15 +127,15 @@ def display_time(leds, time, colon, render=True):
 class Main:
 
     def show_time(self):
-        display_time(self.matrix.leds, get_current_time(), self.colon, render=False)
+        display_time(self.matrix.leds, get_current_time(), self.colon, self.sync, render=False)
         self.colon = not self.colon
 
     def show_weather(self):
-        display_weather(self.matrix.leds, self.weatherCode, x_offset=X_OFFSET_WEATHER, render=False)
+        display_weather(self.matrix.leds, self.weatherCode, self.sync, x_offset=X_OFFSET_WEATHER, render=False)
 
     def show_status_indicator(self):
         internet_status_color = INTERNET_COLOR_CONNECTED if self.internet_status else INTERNET_COLOR_DISCONNECTED
-        set_specific_led(self.matrix.leds, INTERNET_LED, internet_status_color, render=False)
+        set_specific_led(self.matrix.leds, INTERNET_LED, internet_status_color, self.sync, render=False)
 
     def set_current_brightness(self):
         matrix.set_brightness(get_current_brightness(self.sun), self.matrix.leds)
@@ -169,6 +175,8 @@ class Main:
         self.matrix = matrix.Matrix()
         self.show_all()
         self.update_weather_and_sun()
+
+        self.sync = u131sync.U131Sync()
 
 
 if __name__ == '__main__':
