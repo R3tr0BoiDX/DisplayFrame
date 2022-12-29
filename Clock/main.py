@@ -67,13 +67,22 @@ def display_resource(leds, image, sync, x_offset=0, y_offset=0, render=True):
     pixel = image.convert("RGB")
     for x in range(image.width):
         for y in range(image.height):
+
+            # Get HSV from pixel
             r_p, g_p, b_p = pixel.getpixel((x, y))
             hsv_pixel = colorsys.rgb_to_hsv((r_p / 255.0), (g_p / 255.0), (b_p / 255.0))
-            print(hsv_pixel)
 
-            r, g, b = sync.get_latest_color()
-            hsv_sync = colorsys.rgb_to_hsv((r / 255.0), (g / 255.0), (b / 255.0))
-            print(hsv_sync)
+            # Get HSV from sync
+            r_s, g_s, b_s = sync.get_latest_color()
+            hsv_sync = colorsys.rgb_to_hsv((r_s / 255.0), (g_s / 255.0), (b_s / 255.0))
+
+            # Get hue shift
+            h = hsv_pixel[0] + hsv_sync[0]
+            if h > 1:
+                h -= 1
+
+            # Convert back to RGB
+            r, g, b = colorsys.hsv_to_rgb(h, hsv_pixel[1], hsv_pixel[2])
 
             matrix.set_pixel(
                 x + x_offset + X_OFFSET_START,
