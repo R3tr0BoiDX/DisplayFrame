@@ -164,6 +164,7 @@ class Main:
 
     def __init__(self):
         signal.signal(signal.SIGINT, self.signal_handler)
+        self.sync = u131sync.U131Sync()
 
         self.colon = False
         self.internet_status = check_internet_connection()
@@ -176,7 +177,6 @@ class Main:
         self.show_all()
         self.update_weather_and_sun()
 
-        self.sync = u131sync.U131Sync()
 
 
 if __name__ == '__main__':
