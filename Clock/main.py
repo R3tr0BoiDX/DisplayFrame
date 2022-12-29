@@ -56,8 +56,6 @@ def get_current_brightness(_sun):
 
 
 def set_specific_led(leds, index, color, sync, render=True):
-    print(color)
-    print(sync.get_latest_color())
 
     matrix.set_pixel(index[0], index[1], color, leds)
 
@@ -69,7 +67,10 @@ def display_resource(leds, image, sync, x_offset=0, y_offset=0, render=True):
     pixel = image.convert("RGB")
     for x in range(image.width):
         for y in range(image.height):
-            r, g, b = pixel.getpixel((x, y))
+            #r, g, b = pixel.getpixel((x, y))
+            r, g, b = sync.get_latest_color()
+
+
             matrix.set_pixel(
                 x + x_offset + X_OFFSET_START,
                 y + y_offset + Y_OFFSET_START,
