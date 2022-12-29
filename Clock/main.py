@@ -68,6 +68,8 @@ def display_resource(leds, image, sync, x_offset=0, y_offset=0, render=True):
     for x in range(image.width):
         for y in range(image.height):
             #r, g, b = pixel.getpixel((x, y))
+
+
             r, g, b = sync.get_latest_color()
 
 
@@ -97,7 +99,7 @@ def display_misc(leds, name, sync, x_offset=0, y_offset=0, render=True):
     display_resource(leds, image, sync, x_offset, y_offset, render=render)
 
 
-def display_time(leds, cur_time, sync, colon, render=True):
+def display_time(leds, cur_time, colon, sync, render=True):
     matrix.flush(leds)
 
     colon_offset = 0
