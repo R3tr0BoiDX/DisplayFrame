@@ -87,7 +87,7 @@ def display_resource(leds, image, sync, x_offset=0, y_offset=0, render=True):
             matrix.set_pixel(
                 x + x_offset + X_OFFSET_START,
                 y + y_offset + Y_OFFSET_START,
-                Color(r, g, b),
+                Color(int(r*255), int(g*255), int(b*255)),
                 leds
             )
 
