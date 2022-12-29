@@ -1,3 +1,4 @@
+import colorsys
 import signal
 import socket
 import sys
@@ -56,7 +57,6 @@ def get_current_brightness(_sun):
 
 
 def set_specific_led(leds, index, color, sync, render=True):
-
     matrix.set_pixel(index[0], index[1], color, leds)
 
     if render:
@@ -67,11 +67,13 @@ def display_resource(leds, image, sync, x_offset=0, y_offset=0, render=True):
     pixel = image.convert("RGB")
     for x in range(image.width):
         for y in range(image.height):
-            #r, g, b = pixel.getpixel((x, y))
-
+            r_p, g_p, b_p = pixel.getpixel((x, y))
+            hsv_pixel = colorsys.rgb_to_hsv((r_p / 255.0), (g_p / 255.0), (b_p / 255.0))
+            print(hsv_pixel)
 
             r, g, b = sync.get_latest_color()
-
+            hsv_sync = colorsys.rgb_to_hsv((r / 255.0), (g / 255.0), (b / 255.0))
+            print(hsv_sync)
 
             matrix.set_pixel(
                 x + x_offset + X_OFFSET_START,
@@ -179,7 +181,6 @@ class Main:
         self.matrix = matrix.Matrix()
         self.show_all()
         self.update_weather_and_sun()
-
 
 
 if __name__ == '__main__':
