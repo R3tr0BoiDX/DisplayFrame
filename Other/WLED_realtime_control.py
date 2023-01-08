@@ -10,7 +10,7 @@ def draw_at_index(color, index, display: matrix.Matrix):
 
     print(f"set color {x}:{y} to {color}")
 
-    matrix.set_pixel(x, y, color, display)
+    matrix.set_pixel(x, y, color, display.leds)
 
 
 def receive_datagrams(sock, display):
