@@ -51,9 +51,12 @@ def main():
 
     white = (255, 255, 255)
 
+    offset_horizontal = 2
+    offset_vertical = 1
+
     game_over = False
 
-    ball_pos_x = 0
+    ball_pos_x = offset_horizontal
     ball_pos_y = 4
     while not game_over:
         matrix.set_pixel((ball_pos_x, ball_pos_y), white, display)

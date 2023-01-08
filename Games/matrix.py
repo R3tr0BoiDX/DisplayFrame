@@ -2,7 +2,7 @@ import _rpi_ws281x as ws281x
 from rpi_ws281x import PixelStrip, Color
 
 LED_HEIGHT = 8
-LED_WIDTH = 32
+LED_WIDTH = 28
 
 TARGET_FREQ = ws281x.WS2811_TARGET_FREQ
 GPIO_PIN = 18
