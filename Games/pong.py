@@ -53,11 +53,12 @@ def main():
 
     game_over = False
 
-    ball_pos = (16, 4)
+    ball_pos_x = 0
+    ball_pos_y = 4
     while not game_over:
-        matrix.set_pixel(ball_pos, white, display)
+        matrix.set_pixel((ball_pos_x, ball_pos_y), white, display)
 
-        ball_pos = tuple(value + 1 for value in ball_pos)
+        ball_pos_x += 1
 
         display.show()
         time.sleep(CLOCK_SPEED)
