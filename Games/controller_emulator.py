@@ -2,7 +2,7 @@ import socket
 
 import pygame
 
-from Games.bit_operation import set_bit
+from Games.bit_ops import set_bit
 
 # pixel map:
 # 0 - player 1 if 0, player 2 if 1
@@ -15,7 +15,7 @@ from Games.bit_operation import set_bit
 # 7 - start
 
 SIZE = (256, 224)
-UDP_IP = "127.0.0.1"
+UDP_IP = "192.168.2.102"
 UDP_PORT = 5005
 
 pygame.init()

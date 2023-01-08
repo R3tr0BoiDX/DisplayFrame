@@ -2,8 +2,8 @@ import socket
 import threading
 import time
 
-from Games import matrix
-from Games.bit_operation import check_bit
+import matrix
+import bit_ops
 
 UDP_IP = "127.0.0.1"
 UDP_PORT = 5005
@@ -17,28 +17,28 @@ def get_input(sock):
         control = int.from_bytes(data, byteorder='big', signed=False)
         print(control)
 
-        if not check_bit(control, 0):
+        if not bit_ops.check_bit(control, 0):
             print("player 0")
 
-            if check_bit(control, 1):
+            if bit_ops.check_bit(control, 1):
                 print("up")
 
-            if check_bit(control, 2):
+            if bit_ops.check_bit(control, 2):
                 print("down")
 
-            if check_bit(control, 3):
+            if bit_ops.check_bit(control, 3):
                 print("left")
 
-            if check_bit(control, 4):
+            if bit_ops.check_bit(control, 4):
                 print("right")
 
-            if check_bit(control, 5):
+            if bit_ops.check_bit(control, 5):
                 print("a")
 
-            if check_bit(control, 6):
+            if bit_ops.check_bit(control, 6):
                 print("b")
 
-            if check_bit(control, 7):
+            if bit_ops.check_bit(control, 7):
                 print("start")
 
 
