@@ -13,17 +13,11 @@ def draw_at_index(color, index, display: matrix.Matrix):
     matrix.set_pixel(x, y, color, display)
 
 
-def receive_datagrams(display):
-    # Create a UDP socket
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-
-    # Bind the socket to the address and port
-    server_address = ('localhost', 19446)
-    sock.bind(server_address)
-
+def receive_datagrams(sock, display):
     # Receive the message
     data, client_address = sock.recvfrom(4096)
 
+    logging.info("Received datagram")
     parse_datagram(data, display)
 
 
@@ -45,8 +39,19 @@ def parse_datagram(datagram, display):
 
 
 if __name__ == '__main__':
-    print(f"My IP address is {socket.gethostbyname(socket.gethostname())}")
+    logging.basicConfig()
+    logging.getLogger().setLevel(logging.DEBUG)
 
     leds = matrix.Matrix()
+
+    # Create a UDP socket
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    logging.info("Created socket")
+
+    # Bind the socket to the address and port
+    server_address = ('', 19446)
+    sock.bind(server_address)
+    logging.info("Bound socket")
+
     while True:
-        receive_datagrams(leds)
+        receive_datagrams(sock, leds)
