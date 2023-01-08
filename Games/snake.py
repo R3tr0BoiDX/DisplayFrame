@@ -1,5 +1,6 @@
 import socket
 import threading
+import time
 
 from Games import matrix
 from Games.bit_operation import check_bit
@@ -57,6 +58,9 @@ def main():
         matrix.set_pixel(ball_pos, white, display)
 
         ball_pos = tuple(value + 1 for value in ball_pos)
+
+        display.show()
+        time.sleep(CLOCK_SPEED)
 
 
 if __name__ == '__main__':
