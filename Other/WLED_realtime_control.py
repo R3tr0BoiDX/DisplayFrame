@@ -13,15 +13,12 @@ def receive_datagrams(recv_sock, display):
 
 
 def parse_datagram(datagram, display):
-    print("parse")
     data = []
     for byte in datagram:
         data.append(byte)
 
     logging.debug(f"Mode: {data[0]}")
     logging.debug(f"Timeout: {data[1]}")
-
-    print("range")
 
     pixel = []
     for i in range(2, len(data), 3):
@@ -32,7 +29,6 @@ def parse_datagram(datagram, display):
         draw_at_index(pixel[i], i, display)
 
     display.leds.show()
-    print("done parse")
 
 
 def draw_at_index(color, index, display: matrix.Matrix):
