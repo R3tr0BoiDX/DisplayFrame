@@ -66,11 +66,11 @@ def main():
         matrix.clear(display)
         matrix.set_pixel((ball_pos_x, ball_pos_y), white, display)
 
-        ball_pos_x += (1 * ball_dir_x)
+     #   ball_pos_x += (1 * ball_dir_x)
         ball_pos_y += (1 * ball_dir_y)
 
-        if ball_pos_x > matrix.LED_WIDTH - offset_horizontal or ball_pos_x < offset_horizontal:
-            ball_dir_x *= -1
+    #    if ball_pos_x > matrix.LED_WIDTH - offset_horizontal or ball_pos_x < offset_horizontal:
+            #ball_dir_x *= -1
 
         if ball_pos_y > matrix.LED_WIDTH - offset_vertical or ball_pos_y < offset_vertical:
             ball_dir_y *= -1
