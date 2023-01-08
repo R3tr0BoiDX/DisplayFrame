@@ -9,7 +9,7 @@ from PIL import Image
 from rpi_ws281x import Color
 
 import graphics
-import matrix
+from Display import matrix
 import u131sync
 import weather
 
