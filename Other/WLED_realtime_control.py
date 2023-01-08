@@ -3,21 +3,25 @@ import socket
 
 import matrix
 
-def receive_datagrams(sock, display):
+
+def receive_datagrams(recv_sock, display):
     # Receive the message
-    data, client_address = sock.recvfrom(4096)
+    data, client_address = recv_sock.recvfrom(4096)
 
     logging.info("Received datagram")
     parse_datagram(data, display)
 
 
 def parse_datagram(datagram, display):
+    print("parse")
     data = []
     for byte in datagram:
         data.append(byte)
 
     logging.debug(f"Mode: {data[0]}")
     logging.debug(f"Timeout: {data[1]}")
+
+    print("range")
 
     pixel = []
     for i in range(2, len(data), 3):
@@ -26,6 +30,7 @@ def parse_datagram(datagram, display):
 
     for i in range(0, len(pixel)):
         draw_at_index(pixel[i], i, display)
+    print("done parse")
 
 
 def draw_at_index(color, index, display: matrix.Matrix):
@@ -41,6 +46,7 @@ if __name__ == '__main__':
     logging.basicConfig()
     logging.getLogger().setLevel(logging.DEBUG)
 
+    # Create a LED matrix
     leds = matrix.Matrix()
 
     # Create a UDP socket
