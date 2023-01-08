@@ -1,3 +1,4 @@
+import random
 import socket
 import threading
 import time
@@ -59,20 +60,20 @@ def main():
     ball_pos_x = matrix.LED_WIDTH // 2
     ball_pos_y = matrix.LED_HEIGHT // 2
 
-    ball_dir_x = 1
+    ball_dir_x = random.choice([-1, 1])
+    ball_dir_y = random.choice([-1, 1])
     while not game_over:
         matrix.clear(display)
         matrix.set_pixel((ball_pos_x, ball_pos_y), white, display)
 
         ball_pos_x += (1 * ball_dir_x)
+        ball_pos_y += (1 * ball_dir_y)
 
         if ball_pos_x > matrix.LED_WIDTH - offset_horizontal or ball_pos_x < offset_horizontal:
             ball_dir_x *= -1
 
-        #if ball_pos_y < matrix.LED_HEIGHT - offset_vertical:
-         #   ball_pos_y += 1
-        #else:
-        #    ball_pos_y *= -1
+        if ball_pos_y > matrix.LED_WIDTH - offset_vertical or ball_pos_y < offset_vertical:
+            ball_dir_y *= -1
 
 
         display.show()
