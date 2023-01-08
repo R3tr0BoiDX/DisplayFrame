@@ -32,6 +32,8 @@ def draw_at_index(color, index, display: matrix.Matrix):
     y = index // matrix.LED_WIDTH
     x = index % matrix.LED_WIDTH
 
+    logging.debug(f"Set {x}{y} to R: {color[0]}, G: {color[1]}, B: {color[2]}")
+
     matrix.set_pixel(x, y, color, display.leds)
 
 
