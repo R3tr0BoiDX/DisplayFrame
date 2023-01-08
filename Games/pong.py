@@ -66,10 +66,10 @@ def main():
         else:
             ball_pos_x *= -1
 
-        if ball_pos_y < matrix.LED_HEIGHT - offset_vertical:
-            ball_pos_y += 1
-        else:
-            ball_pos_y *= -1
+        #if ball_pos_y < matrix.LED_HEIGHT - offset_vertical:
+         #   ball_pos_y += 1
+        #else:
+        #    ball_pos_y *= -1
 
         display.show()
         time.sleep(CLOCK_SPEED)
