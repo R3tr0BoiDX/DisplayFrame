@@ -1,12 +1,14 @@
 import logging
 import socket
 
-from Display import matrix
+from Other import matrix
 
 
 def draw_at_index(color, index, display: matrix.Matrix):
     y = index // matrix.LED_WIDTH
     x = index % matrix.LED_WIDTH
+
+    print(f"set color {x}:{y} to {color}")
 
     matrix.set_pixel(x, y, color, display)
 
@@ -43,6 +45,8 @@ def parse_datagram(datagram, display):
 
 
 if __name__ == '__main__':
+    print(f"My IP address is {socket.gethostbyname(socket.gethostname())}")
+
     leds = matrix.Matrix()
     while True:
         receive_datagrams(leds)
