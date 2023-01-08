@@ -8,7 +8,7 @@ import bit_ops
 UDP_IP = "127.0.0.1"
 UDP_PORT = 5005
 
-CLOCK_SPEED = 0.010  # s
+CLOCK_SPEED = 1  # s
 
 
 def get_input(sock):
