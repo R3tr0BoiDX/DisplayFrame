@@ -39,7 +39,7 @@ def draw_at_index(color, index, display: matrix.Matrix):
 
 if __name__ == '__main__':
     logging.basicConfig()
-    logging.getLogger().setLevel(logging.INFO)
+    logging.getLogger().setLevel(logging.DEBUG)
 
     leds = matrix.Matrix()
 
