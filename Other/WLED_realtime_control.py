@@ -1,7 +1,7 @@
 import logging
 import socket
 
-import matrix
+from .. import matrix
 
 
 def draw_at_index(color, index, display: matrix.Matrix):
