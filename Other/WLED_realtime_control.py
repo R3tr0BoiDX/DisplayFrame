@@ -8,7 +8,7 @@ def receive_datagrams(recv_sock, display):
     # Receive the message
     data, client_address = recv_sock.recvfrom(4096)
 
-    logging.info("Received datagram")
+    logging.debug("Received datagram")
     parse_datagram(data, display)
 
 
@@ -30,6 +30,8 @@ def parse_datagram(datagram, display):
 
     for i in range(0, len(pixel)):
         draw_at_index(pixel[i], i, display)
+
+    display.leds.show()
     print("done parse")
 
 
@@ -44,7 +46,7 @@ def draw_at_index(color, index, display: matrix.Matrix):
 
 if __name__ == '__main__':
     logging.basicConfig()
-    logging.getLogger().setLevel(logging.DEBUG)
+    logging.getLogger().setLevel(logging.INFO)
 
     # Create a LED matrix
     leds = matrix.Matrix()
