@@ -56,8 +56,8 @@ def main():
 
     game_over = False
 
-    ball_pos_x = matrix.LED_WIDTH / 2
-    ball_pos_y = matrix.LED_HEIGHT / 2
+    ball_pos_x = matrix.LED_WIDTH // 2
+    ball_pos_y = matrix.LED_HEIGHT // 2
     while not game_over:
         matrix.set_pixel((ball_pos_x, ball_pos_y), white, display)
 
