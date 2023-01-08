@@ -8,7 +8,7 @@ import bit_ops
 UDP_IP = "127.0.0.1"
 UDP_PORT = 5005
 
-CLOCK_SPEED = 1  # s
+CLOCK_SPEED = 0.1  # s
 
 
 def get_input(sock):
@@ -56,12 +56,16 @@ def main():
 
     game_over = False
 
-    ball_pos_x = offset_horizontal
-    ball_pos_y = 4
+    ball_pos_x = matrix.LED_WIDTH / 2
+    ball_pos_y = matrix.LED_HEIGHT / 2
     while not game_over:
         matrix.set_pixel((ball_pos_x, ball_pos_y), white, display)
 
-        ball_pos_x += 1
+        if ball_pos_x < matrix.LED_WIDTH - offset_horizontal:
+            ball_pos_x += 1
+
+        if ball_pos_y < matrix.LED_HEIGHT - offset_vertical:
+            ball_pos_y += 1
 
         display.show()
         time.sleep(CLOCK_SPEED)
