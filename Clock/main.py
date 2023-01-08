@@ -82,7 +82,7 @@ def display_resource(leds, image, sync, x_offset=0, y_offset=0, render=True):
                 h -= 1
 
             # Convert back to RGB
-            r, g, b = colorsys.hsv_to_rgb(h, hsv_sync[1], hsv_pixel[2])
+            r, g, b = colorsys.hsv_to_rgb(h, hsv_pixel[1], hsv_pixel[2])
 
             matrix.set_pixel(
                 x + x_offset + X_OFFSET_START,
