@@ -3,16 +3,6 @@ import socket
 
 import matrix
 
-
-def draw_at_index(color, index, display: matrix.Matrix):
-    y = index // matrix.LED_WIDTH
-    x = index % matrix.LED_WIDTH
-
-    print(f"set color {x}:{y} to {color}")
-
-    matrix.set_pixel(x, y, color, display.leds)
-
-
 def receive_datagrams(sock, display):
     # Receive the message
     data, client_address = sock.recvfrom(4096)
@@ -38,9 +28,16 @@ def parse_datagram(datagram, display):
         draw_at_index(pixel[i], i, display)
 
 
+def draw_at_index(color, index, display: matrix.Matrix):
+    y = index // matrix.LED_WIDTH
+    x = index % matrix.LED_WIDTH
+
+    matrix.set_pixel(x, y, color, display.leds)
+
+
 if __name__ == '__main__':
     logging.basicConfig()
-    logging.getLogger().setLevel(logging.DEBUG)
+    logging.getLogger().setLevel(logging.INFO)
 
     leds = matrix.Matrix()
 

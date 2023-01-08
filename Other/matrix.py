@@ -26,7 +26,7 @@ def flush(leds):
 
 
 def set_pixel(x, y, color, leds: PixelStrip):
-    leds.setPixelColor(led_matrix_translation(x, y), color)
+    leds.setPixelColor(led_matrix_translation(x, y), Color(color[0], color[1], color[2]))
 
 
 def set_brightness(brightness, leds):
