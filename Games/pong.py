@@ -82,7 +82,7 @@ def main():
                 player_one_pos_y -= 1
 
         for i in range(0, player_height):
-            matrix.set_pixel((player_offset_x, player_one_pos_y + 1), WHITE, display)
+            matrix.set_pixel((player_offset_x, player_one_pos_y + i), WHITE, display)
 
         # game logic
         display.show()
