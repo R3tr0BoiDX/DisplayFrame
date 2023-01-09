@@ -6,7 +6,8 @@ import time
 import bit_ops
 import matrix
 
-UDP_PORT = 5005
+UDP_PORT_PLAYER_ONE = 5004
+UDP_PORT_PLAYER_TWO = 5005
 CLOCK_SPEED = 0.5  # s
 
 WHITE = (255, 255, 255)
@@ -27,13 +28,17 @@ class Input:
 
 
 def main():
-    # setup thread
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sock.bind(('', UDP_PORT))
+    # setup player one input
+    sock_p1 = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock_p1.bind(('', UDP_PORT_PLAYER_ONE))
+    input_p1 = Input()
+    threading.Thread(target=input_p1.get_input, args=(sock_p1,)).start()
 
-    # setup input class
-    recv_input = Input()
-    threading.Thread(target=recv_input.get_input, args=(sock,)).start()
+    # setup player two input
+    sock_p2 = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock_p2.bind(('', UDP_PORT_PLAYER_TWO))
+    input_p2 = Input()
+    threading.Thread(target=input_p2.get_input, args=(sock_p2,)).start()
 
     # setup display
     display = matrix.Matrix().leds
@@ -63,18 +68,23 @@ def main():
 
         if ball_pos_x > matrix.LED_WIDTH - ball_offset_horizontal - 1 or ball_pos_x < ball_offset_horizontal + 1:
 
-            if ball_dir_x > 0:
-                if ball_pos_y == player_one_pos_y or ball_pos_y == player_one_pos_y + 1:
-                    print("coll")
-                else:
-                    print("miss")
-            else:
-                if ball_pos_y == player_one_pos_y or ball_pos_y == player_one_pos_y + 1:
-                    print("coll")
-                else:
+            switched = False
+            if ball_dir_x < 0:
+                for i in range(0, player_height):
+                    if ball_pos_y == player_one_pos_y + i:
+                        ball_dir_x *= -1
+                        switched = True
+
+                if not switched:
                     print("miss")
 
-            ball_dir_x *= -1
+            else:
+                for i in range(0, player_height):
+                    if ball_pos_y == player_one_pos_y + i:  # todo: player two
+                        ball_dir_x *= -1
+                        switched = True
+                if not switched:
+                    print("miss")
 
         if ball_pos_y > matrix.LED_HEIGHT - ball_offset_vertical - 2 or ball_pos_y < ball_offset_vertical + 2:
             ball_dir_y *= -1
@@ -83,13 +93,13 @@ def main():
         ball_pos_y += (1 * ball_dir_y)
 
         # player one
-        if bit_ops.check_bit(recv_input.current_input, 0):  # up
-            recv_input.current_input = bit_ops.clear_bit(recv_input.current_input, 0)
+        if bit_ops.check_bit(input_p1.current_input, 0):  # up
+            input_p1.current_input = bit_ops.clear_bit(input_p1.current_input, 0)
             if player_one_pos_y > ball_offset_vertical:
                 player_one_pos_y -= 1
 
-        if bit_ops.check_bit(recv_input.current_input, 1):  # down
-            recv_input.current_input = bit_ops.clear_bit(recv_input.current_input, 1)
+        if bit_ops.check_bit(input_p1.current_input, 1):  # down
+            input_p1.current_input = bit_ops.clear_bit(input_p1.current_input, 1)
             if player_one_pos_y < matrix.LED_HEIGHT - ball_offset_vertical - player_height:
                 player_one_pos_y += 1
 
