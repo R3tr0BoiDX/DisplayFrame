@@ -75,9 +75,11 @@ def main():
             print(f"player 0: {recv_input.current_input}")
 
             if bit_ops.check_bit(recv_input.current_input, 1):
+                recv_input.current_input = bit_ops.clear_bit(recv_input.current_input, 1)
                 print("up")
 
             if bit_ops.check_bit(recv_input.current_input, 2):
+                recv_input.current_input = bit_ops.clear_bit(recv_input.current_input, 2)
                 print("down")
 
         # game logic
