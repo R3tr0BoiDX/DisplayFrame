@@ -173,7 +173,6 @@ class Pong:
             self.wait_for_start()
             round_over = False
 
-        print("game over")
         matrix.blink(BLINK_COUNT_GAME_OVER, BLINK_DELAY_GAME_OVER, self.display)
 
         # wait for either player to press start
