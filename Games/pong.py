@@ -56,7 +56,7 @@ def main():
 
     game_over = False
     while not game_over:
-        matrix.clear(display)
+        matrix.flush(display)
 
         # draw ball
         matrix.set_pixel((ball_pos_x, ball_pos_y), WHITE, display)
@@ -66,11 +66,12 @@ def main():
 
         if ball_pos_x > matrix.LED_WIDTH - ball_offset_horizontal - 1 or ball_pos_x < ball_offset_horizontal + 1:
             ball_dir_x *= -1
+            print("switch direction")
 
         if ball_pos_y > matrix.LED_HEIGHT - ball_offset_vertical - 1 or ball_pos_y < ball_offset_vertical + 1:
             ball_dir_y *= -1
 
-        # player input
+        # player one
         if bit_ops.check_bit(recv_input.current_input, 0):  # up
             recv_input.current_input = bit_ops.clear_bit(recv_input.current_input, 0)
             if player_one_pos_y > ball_offset_vertical:
@@ -83,6 +84,10 @@ def main():
 
         for i in range(0, player_height):
             matrix.set_pixel((player_offset_x, player_one_pos_y + i), WHITE, display)
+
+        # todo: player two
+        for i in range(0, player_height):
+            matrix.set_pixel((matrix.LED_WIDTH - player_offset_x, player_one_pos_y + i), WHITE, display)
 
         # game logic
         display.show()
