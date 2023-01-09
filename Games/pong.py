@@ -8,7 +8,7 @@ import matrix
 
 UDP_PORT_PLAYER_ONE = 5004
 UDP_PORT_PLAYER_TWO = 5005
-CLOCK_SPEED = 0.5  # s
+CLOCK_SPEED = 0.1  # s
 
 WHITE = (255, 255, 255)
 
