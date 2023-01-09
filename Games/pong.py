@@ -16,6 +16,8 @@ BLINK_COUNT_GAME_OVER = 3
 BLINK_DELAY_GAME_OVER = 0.5  # ms
 
 
+# todo: script extremely messy. refactor-e-lot
+
 class Input:
 
     def __init__(self):
@@ -58,25 +60,27 @@ def main():
     player_height = 2
     player_offset_x = ball_offset_horizontal - 1
 
-    player_one_pos_y = matrix.LED_HEIGHT // 2
+    p1_pos_y = matrix.LED_HEIGHT // 2
 
-    # duplicate
+    p1_points = 0
+    p2_points = 0
+
+    # todo duplicate
     matrix.set_pixel((ball_pos_x, ball_pos_y), WHITE, display)
     for i in range(0, player_height):
-        matrix.set_pixel((player_offset_x, player_one_pos_y + i), WHITE, display)
+        matrix.set_pixel((player_offset_x, p1_pos_y + i), WHITE, display)
 
     # todo: player two
     for i in range(0, player_height):
-        matrix.set_pixel((matrix.LED_WIDTH - player_offset_x, player_one_pos_y + i), WHITE, display)
+        matrix.set_pixel((matrix.LED_WIDTH - player_offset_x, p1_pos_y + i), WHITE, display)
     # end duplicat
-
+    display.show()
 
     # wait for either player to press start
-    display.show()
     while not bit_ops.check_bit(input_p1.current_input, 6) and not bit_ops.check_bit(input_p2.current_input, 6):
         time.sleep(0.5)
 
-
+    # main loop
     game_over = False
     while not game_over:
         matrix.flush(display)
@@ -90,15 +94,23 @@ def main():
             missed = True
             if ball_dir_x < 0:
                 for i in range(0, player_height):
-                    if ball_pos_y == player_one_pos_y + i:
+                    if ball_pos_y == p1_pos_y + i:
                         ball_dir_x *= -1
                         missed = False
 
+                if missed:
+                    p2_points += 1
+                    print("point for p2")
+
             else:
                 for i in range(0, player_height):
-                    if ball_pos_y == player_one_pos_y + i:  # todo: player two
+                    if ball_pos_y == p1_pos_y + i:  # todo: player two
                         ball_dir_x *= -1
                         missed = False
+
+                if missed:
+                    p1_points += 1
+                    print("point for p1")
 
             game_over = missed
 
@@ -113,26 +125,27 @@ def main():
         # player one
         if bit_ops.check_bit(input_p1.current_input, 0):  # up
             input_p1.current_input = bit_ops.clear_bit(input_p1.current_input, 0)
-            if player_one_pos_y > ball_offset_vertical:
-                player_one_pos_y -= 1
+            if p1_pos_y > ball_offset_vertical:
+                p1_pos_y -= 1
 
         if bit_ops.check_bit(input_p1.current_input, 1):  # down
             input_p1.current_input = bit_ops.clear_bit(input_p1.current_input, 1)
-            if player_one_pos_y < matrix.LED_HEIGHT - ball_offset_vertical - player_height:
-                player_one_pos_y += 1
+            if p1_pos_y < matrix.LED_HEIGHT - ball_offset_vertical - player_height:
+                p1_pos_y += 1
 
         for i in range(0, player_height):
-            matrix.set_pixel((player_offset_x, player_one_pos_y + i), WHITE, display)
+            matrix.set_pixel((player_offset_x, p1_pos_y + i), WHITE, display)
 
         # todo: player two
         for i in range(0, player_height):
-            matrix.set_pixel((matrix.LED_WIDTH - player_offset_x, player_one_pos_y + i), WHITE, display)
+            matrix.set_pixel((matrix.LED_WIDTH - player_offset_x, p1_pos_y + i), WHITE, display)
 
         # game logic
         display.show()
         time.sleep(CLOCK_SPEED)
 
     matrix.blink(BLINK_COUNT_GAME_OVER, BLINK_DELAY_GAME_OVER, display)
+    matrix.clear(display)
     print("game over")
 
 
