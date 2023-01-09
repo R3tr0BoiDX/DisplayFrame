@@ -7,7 +7,7 @@ import bit_ops
 import matrix
 
 UDP_PORT = 5005
-CLOCK_SPEED = 1  # s
+CLOCK_SPEED = 0.1  # s
 
 WHITE = (255, 255, 255)
 
@@ -65,7 +65,7 @@ def main():
             ball_dir_x *= -1
             print("switch direction")
 
-        if ball_pos_y > matrix.LED_HEIGHT - ball_offset_vertical - 1 or ball_pos_y < ball_offset_vertical + 1:
+        if ball_pos_y > matrix.LED_HEIGHT - ball_offset_vertical - 2 or ball_pos_y < ball_offset_vertical + 2:
             ball_dir_y *= -1
 
         ball_pos_x += (1 * ball_dir_x)
