@@ -22,7 +22,7 @@ class Input:
             data, addr = sock.recvfrom(1)
             control = int.from_bytes(data, byteorder='big', signed=False)
 
-            if control == 2 or control == 4:  # only care about ups and downs, lul
+            if control == 1 or control == 2:  # only care about ups and downs, lul
                 self.current_input = bit_ops.combine(self.current_input, control)
 
 
@@ -71,15 +71,13 @@ def main():
             ball_dir_y *= -1
 
         # player input
-        if not bit_ops.check_bit(recv_input.current_input, 0):
+        if bit_ops.check_bit(recv_input.current_input, 1):  # up
+            recv_input.current_input = bit_ops.clear_bit(recv_input.current_input, 1)
+            player_one_pos_y += 1
 
-            if bit_ops.check_bit(recv_input.current_input, 1):  # up
-                recv_input.current_input = bit_ops.clear_bit(recv_input.current_input, 1)
-                player_one_pos_y += 1
-
-            if bit_ops.check_bit(recv_input.current_input, 2):  # down
-                recv_input.current_input = bit_ops.clear_bit(recv_input.current_input, 2)
-                player_one_pos_y -= 1
+        if bit_ops.check_bit(recv_input.current_input, 2):  # down
+            recv_input.current_input = bit_ops.clear_bit(recv_input.current_input, 2)
+            player_one_pos_y -= 1
 
         for i in range(0, player_height):
             matrix.set_pixel((player_offset_x, player_one_pos_y + i), WHITE, display)
