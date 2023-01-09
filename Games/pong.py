@@ -161,7 +161,7 @@ def main():
         for i in range(p1_points):
             matrix.set_pixel((0, points_pos_min_y - i), WHITE, display)
         for i in range(p2_points):
-            matrix.set_pixel((matrix.LED_WIDTH, points_pos_min_y - i), WHITE, display)
+            matrix.set_pixel((matrix.LED_WIDTH - 1, points_pos_min_y - i), WHITE, display)  # todo: indexing bug
         display.show()
 
         if p1_points == 3 or p2_points == 3:
