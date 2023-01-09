@@ -49,7 +49,7 @@ class Pong:
 
     def reset_player_pos(self):
         self.p1_pos_y = matrix.LED_HEIGHT // 2
-        # todo: self.p2_pos_y = matrix.LED_HEIGHT // 2
+        self.p2_pos_y = matrix.LED_HEIGHT // 2
 
     def reset_points(self):
         self.p1_points = 0
@@ -63,8 +63,8 @@ class Pong:
             matrix.set_pixel((PLAYER_OFFSET_X, self.p1_pos_y + i), WHITE, self.display)
 
         for i in range(PLAYER_HEIGHT):
-            matrix.set_pixel((matrix.LED_WIDTH - PLAYER_OFFSET_X, self.p1_pos_y + i), WHITE,
-                             self.display)  # todo: player two
+            matrix.set_pixel((matrix.LED_WIDTH - PLAYER_OFFSET_X, self.p2_pos_y + i), WHITE,
+                             self.display)
 
     def render_points(self):
         for i in range(self.p1_points):
@@ -142,7 +142,7 @@ class Pong:
                             self.p2_points += 1
 
                     else:
-                        missed = self.check_collision(self.p1_pos_y)  # todo: player two
+                        missed = self.check_collision(self.p2_pos_y)
                         if missed:
                             self.p1_points += 1
 
