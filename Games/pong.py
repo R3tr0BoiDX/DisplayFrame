@@ -60,8 +60,20 @@ def main():
 
     player_one_pos_y = matrix.LED_HEIGHT // 2
 
+    # duplicate
+    matrix.set_pixel((ball_pos_x, ball_pos_y), WHITE, display)
+    for i in range(0, player_height):
+        matrix.set_pixel((player_offset_x, player_one_pos_y + i), WHITE, display)
+
+    # todo: player two
+    for i in range(0, player_height):
+        matrix.set_pixel((matrix.LED_WIDTH - player_offset_x, player_one_pos_y + i), WHITE, display)
+    # end duplicat
+
+
     # wait for either player to press start
-    while not (bit_ops.check_bit(input_p1.current_input, 64) or bit_ops.check_bit(input_p2.current_input, 64)):
+    display.show()
+    while not bit_ops.check_bit(input_p1.current_input, 64) or not bit_ops.check_bit(input_p2.current_input, 64):
         print("wait for start to be pressed")
         time.sleep(0.5)
 
