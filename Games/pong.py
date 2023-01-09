@@ -6,11 +6,8 @@ import time
 import bit_ops
 import matrix
 
-UDP_IP = "127.0.0.1"
 UDP_PORT = 5005
-
 CLOCK_SPEED = 0.1  # s
-
 
 def get_input(sock):
     print("start thread")
@@ -46,7 +43,7 @@ def get_input(sock):
 
 def main():
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sock.bind((UDP_IP, UDP_PORT))
+    sock.bind(('', UDP_PORT))
     threading.Thread(target=get_input, args=(sock,)).start()
 
     display = matrix.Matrix().leds
