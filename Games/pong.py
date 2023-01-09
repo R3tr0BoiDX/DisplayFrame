@@ -73,11 +73,13 @@ def main():
         # player input
         if bit_ops.check_bit(recv_input.current_input, 0):  # up
             recv_input.current_input = bit_ops.clear_bit(recv_input.current_input, 0)
-            player_one_pos_y += 1
+            if player_one_pos_y > 0:
+                player_one_pos_y -= 1
 
         if bit_ops.check_bit(recv_input.current_input, 1):  # down
             recv_input.current_input = bit_ops.clear_bit(recv_input.current_input, 1)
-            player_one_pos_y -= 1
+            if player_one_pos_y < matrix.LED_HEIGHT:
+                player_one_pos_y += 1
 
         for i in range(0, player_height):
             matrix.set_pixel((player_offset_x, player_one_pos_y + i), WHITE, display)
