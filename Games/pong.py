@@ -22,8 +22,6 @@ class Input:
             data, addr = sock.recvfrom(1)
             control = int.from_bytes(data, byteorder='big', signed=False)
 
-            print(control == 1)
-
             if control == 1 or control == 2:  # only care about ups and downs, lul
                 self.current_input = bit_ops.combine(self.current_input, control)
 
@@ -73,12 +71,12 @@ def main():
             ball_dir_y *= -1
 
         # player input
-        if bit_ops.check_bit(recv_input.current_input, 1):  # up
-            recv_input.current_input = bit_ops.clear_bit(recv_input.current_input, 1)
+        if bit_ops.check_bit(recv_input.current_input, 0):  # up
+            recv_input.current_input = bit_ops.clear_bit(recv_input.current_input, 0)
             player_one_pos_y += 1
 
-        if bit_ops.check_bit(recv_input.current_input, 2):  # down
-            recv_input.current_input = bit_ops.clear_bit(recv_input.current_input, 2)
+        if bit_ops.check_bit(recv_input.current_input, 1):  # down
+            recv_input.current_input = bit_ops.clear_bit(recv_input.current_input, 1)
             player_one_pos_y -= 1
 
         for i in range(0, player_height):
