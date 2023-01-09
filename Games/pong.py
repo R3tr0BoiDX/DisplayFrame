@@ -61,15 +61,15 @@ def main():
         # draw ball
         matrix.set_pixel((ball_pos_x, ball_pos_y), WHITE, display)
 
-        ball_pos_x += (1 * ball_dir_x)
-        ball_pos_y += (1 * ball_dir_y)
-
         if ball_pos_x > matrix.LED_WIDTH - ball_offset_horizontal - 1 or ball_pos_x < ball_offset_horizontal + 1:
             ball_dir_x *= -1
             print("switch direction")
 
         if ball_pos_y > matrix.LED_HEIGHT - ball_offset_vertical - 1 or ball_pos_y < ball_offset_vertical + 1:
             ball_dir_y *= -1
+
+        ball_pos_x += (1 * ball_dir_x)
+        ball_pos_y += (1 * ball_dir_y)
 
         # player one
         if bit_ops.check_bit(recv_input.current_input, 0):  # up
