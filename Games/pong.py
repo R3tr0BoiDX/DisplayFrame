@@ -7,7 +7,7 @@ import bit_ops
 import matrix
 
 UDP_PORT = 5005
-CLOCK_SPEED = 0.1  # s
+CLOCK_SPEED = 1  # s
 
 WHITE = (255, 255, 255)
 
