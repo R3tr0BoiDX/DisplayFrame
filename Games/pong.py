@@ -1,3 +1,4 @@
+import logging
 import random
 import time
 
@@ -189,5 +190,6 @@ if __name__ == '__main__':
     Pong(p1, p2).play()
 
     # kill threads
+    logging.info("Stop threads")
     p1.stop()
     p2.stop()
