@@ -81,6 +81,8 @@ def main():
     # wait for either player to press start
     while not bit_ops.check_bit(input_p1.current_input, 6) and not bit_ops.check_bit(input_p2.current_input, 6):
         time.sleep(0.5)
+    input_p1.current_input = bit_ops.clear_bit(input_p1.current_input, 6)
+    input_p2.current_input = bit_ops.clear_bit(input_p2.current_input, 6)
 
     # main loop
     game_over = False
@@ -156,13 +158,19 @@ def main():
         ball_dir_y = random.choice([-1, 1])
         p1_pos_y = matrix.LED_HEIGHT // 2
 
+        # render points
         for i in range(p1_points):
             matrix.set_pixel((1, points_pos_min_y - i), WHITE, display)
+        for i in range(p2_points):
+            matrix.set_pixel((matrix.LED_WIDTH-1, points_pos_min_y - i), WHITE, display)
         display.show()
 
         # wait for either player to press start, todo: redudant
         while not bit_ops.check_bit(input_p1.current_input, 6) and not bit_ops.check_bit(input_p2.current_input, 6):
             time.sleep(0.5)
+        input_p1.current_input = bit_ops.clear_bit(input_p1.current_input, 6)
+        input_p2.current_input = bit_ops.clear_bit(input_p2.current_input, 6)
+
         round_over = False
 
     print("game over")
@@ -171,6 +179,9 @@ def main():
     # wait for either player to press start, todo: redudant
     while not bit_ops.check_bit(input_p1.current_input, 6) and not bit_ops.check_bit(input_p2.current_input, 6):
         time.sleep(0.5)
+    input_p1.current_input = bit_ops.clear_bit(input_p1.current_input, 6)
+    input_p2.current_input = bit_ops.clear_bit(input_p2.current_input, 6)
+
     matrix.clear(display)
 
 
