@@ -3,8 +3,8 @@ import socket
 import threading
 import time
 
-import matrix
 import bit_ops
+import matrix
 
 UDP_IP = "127.0.0.1"
 UDP_PORT = 5005
@@ -66,15 +66,14 @@ def main():
         matrix.clear(display)
         matrix.set_pixel((8, ball_pos_y), white, display)
 
-     #   ball_pos_x += (1 * ball_dir_x)
+        ball_pos_x += (1 * ball_dir_x)
         ball_pos_y += (1 * ball_dir_y)
 
-    #    if ball_pos_x > matrix.LED_WIDTH - offset_horizontal or ball_pos_x < offset_horizontal:
-            #ball_dir_x *= -1
+        if ball_pos_x > matrix.LED_WIDTH - offset_horizontal - 1 or ball_pos_x < offset_horizontal + 1:
+            ball_dir_x *= -1
 
-        if ball_pos_y > matrix.LED_HEIGHT - offset_vertical -1  or ball_pos_y < offset_vertical + 1:
+        if ball_pos_y > matrix.LED_HEIGHT - offset_vertical - 1 or ball_pos_y < offset_vertical + 1:
             ball_dir_y *= -1
-
 
         display.show()
         time.sleep(CLOCK_SPEED)
