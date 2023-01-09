@@ -62,6 +62,12 @@ def main():
 
     player_one_pos_y = matrix.LED_HEIGHT // 2
 
+    # wait for either player to press start
+    while not (bit_ops.check_bit(input_p1.current_input, 64) or bit_ops.check_bit(input_p2.current_input, 64)):
+        print("wait for start to be pressed")
+        time.sleep(0.5)
+
+
     game_over = False
     while not game_over:
         matrix.flush(display)
