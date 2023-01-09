@@ -2,7 +2,7 @@ import socket
 
 import pygame
 
-from Games.network_gamepad import set_bit
+import network_gamepad
 
 # pixel map:
 # 0 - up
@@ -32,29 +32,29 @@ while running:
             val = 0
 
             if event.key == pygame.K_UP:
-                val = set_bit(val, 0)
-                print("player 1: up")
+                val = network_gamepad.set_bit(val, 0)
+                print("player: up")
             if event.key == pygame.K_DOWN:
-                val = set_bit(val, 1)
-                print("player 1: down")
+                val = network_gamepad.set_bit(val, 1)
+                print("player: down")
             if event.key == pygame.K_LEFT:
-                val = set_bit(val, 2)
-                print("player 1: left")
+                val = network_gamepad.set_bit(val, 2)
+                print("player: left")
             if event.key == pygame.K_RIGHT:
-                val = set_bit(val, 3)
-                print("player 1: right")
+                val = network_gamepad.set_bit(val, 3)
+                print("player: right")
             if event.key == pygame.K_a:
-                val = set_bit(val, 4)
-                print("player 1: a")
+                val = network_gamepad.set_bit(val, 4)
+                print("player: a")
             if event.key == pygame.K_s:
-                val = set_bit(val, 5)
-                print("player 1: b")
+                val = network_gamepad.set_bit(val, 5)
+                print("player: b")
             if event.key == pygame.K_RETURN:
-                val = set_bit(val, 6)
-                print("player 1: start")
+                val = network_gamepad.set_bit(val, 6)
+                print("player: start")
             if event.key == pygame.K_SPACE:
-                val = set_bit(val, 7)
-                print("player 1: select")
+                val = network_gamepad.set_bit(val, 7)
+                print("player: select")
 
             sock.sendto(val.to_bytes(1, byteorder='big', signed=False), (UDP_IP, UDP_PORT))
             print('final bitmap: {}={:b}'.format(val, val))
