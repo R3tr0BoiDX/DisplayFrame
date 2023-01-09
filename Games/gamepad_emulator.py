@@ -2,7 +2,7 @@ import socket
 
 import pygame
 
-from Games.bit_ops import set_bit
+from Games.network_gamepad import set_bit
 
 # pixel map:
 # 0 - up
