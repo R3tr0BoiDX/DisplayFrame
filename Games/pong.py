@@ -9,70 +9,78 @@ import matrix
 UDP_PORT = 5005
 CLOCK_SPEED = 0.1  # s
 
-def get_input(sock):
-    print("start thread")
-    while True:
-        data, addr = sock.recvfrom(1)
-        control = int.from_bytes(data, byteorder='big', signed=False)
-        print(control)
+WHITE = (255, 255, 255)
 
-        if not bit_ops.check_bit(control, 0):
-            print("player 0")
 
-            if bit_ops.check_bit(control, 1):
-                print("up")
+class Input:
 
-            if bit_ops.check_bit(control, 2):
-                print("down")
+    def __init__(self):
+        self.current_input = 0
 
-            if bit_ops.check_bit(control, 3):
-                print("left")
+    def get_input(self, sock):
+        while True:
+            data, addr = sock.recvfrom(1)
+            control = int.from_bytes(data, byteorder='big', signed=False)
 
-            if bit_ops.check_bit(control, 4):
-                print("right")
-
-            if bit_ops.check_bit(control, 5):
-                print("a")
-
-            if bit_ops.check_bit(control, 6):
-                print("b")
-
-            if bit_ops.check_bit(control, 7):
-                print("start")
+            self.current_input = bit_ops.combine(self.current_input, control)
+            print("{:b}".format(self.current_input))
 
 
 def main():
+    # setup thread
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.bind(('', UDP_PORT))
-    threading.Thread(target=get_input, args=(sock,)).start()
 
+    # setup input class
+    recv_input = Input()
+    threading.Thread(target=recv_input.get_input, args=(sock,)).start()
+
+    # setup display
     display = matrix.Matrix().leds
 
-    white = (255, 255, 255)
-
-    offset_horizontal = 2
-    offset_vertical = 1
-
-    game_over = False
+    # ball
+    ball_offset_horizontal = 3
+    ball_offset_vertical = 1
 
     ball_pos_x = matrix.LED_WIDTH // 2
     ball_pos_y = matrix.LED_HEIGHT // 2
 
     ball_dir_x = random.choice([-1, 1])
     ball_dir_y = random.choice([-1, 1])
+
+    # player
+    player_height = 2
+    player_offset_x = ball_offset_horizontal - 1
+
+    player_one_pos_y = matrix.LED_HEIGHT // 2
+
+    game_over = False
     while not game_over:
         matrix.clear(display)
-        matrix.set_pixel((ball_pos_x, ball_pos_y), white, display)
+
+        # draw ball
+        matrix.set_pixel((ball_pos_x, ball_pos_y), WHITE, display)
 
         ball_pos_x += (1 * ball_dir_x)
         ball_pos_y += (1 * ball_dir_y)
 
-        if ball_pos_x > matrix.LED_WIDTH - offset_horizontal - 1 or ball_pos_x < offset_horizontal + 1:
+        if ball_pos_x > matrix.LED_WIDTH - ball_offset_horizontal - 1 or ball_pos_x < ball_offset_horizontal + 1:
             ball_dir_x *= -1
 
-        if ball_pos_y > matrix.LED_HEIGHT - offset_vertical - 1 or ball_pos_y < offset_vertical + 1:
+        if ball_pos_y > matrix.LED_HEIGHT - ball_offset_vertical - 1 or ball_pos_y < ball_offset_vertical + 1:
             ball_dir_y *= -1
 
+        # player input
+        if not bit_ops.check_bit(recv_input.current_input, 0):
+            print(f"player 0: {recv_input.current_input}")
+
+            if bit_ops.check_bit(recv_input.current_input, 1):
+                print("up")
+
+            if bit_ops.check_bit(recv_input.current_input, 2):
+                print("down")
+
+        # game logic
         display.show()
         time.sleep(CLOCK_SPEED)
 

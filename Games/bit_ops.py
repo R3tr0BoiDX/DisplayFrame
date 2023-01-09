@@ -8,3 +8,7 @@ def clear_bit(value, bit):
 
 def check_bit(x, n):
     return x & (1 << n)
+
+
+def combine(a, b):
+    return a | b
