@@ -1,3 +1,5 @@
+import time
+
 import _rpi_ws281x as ws281x
 from rpi_ws281x import PixelStrip, Color
 
@@ -12,6 +14,18 @@ STRIP_TYPE = ws281x.WS2812_STRIP
 INVERTED = False
 BRIGHTNESS = 8
 CHANNEL = 0
+
+
+def blink(count, delay, leds: PixelStrip):
+    current_colors = []
+    for i in range(leds.numPixels()):
+        current_colors.append(leds.getPixelColor(i))
+
+    for _ in range(count):
+        clear(leds)
+        time.sleep(delay)
+        for i in range(leds.numPixels()):
+            leds.setPixelColor(i, current_colors[i])
 
 
 def clear(leds):

@@ -1,3 +1,5 @@
+import time
+
 import _rpi_ws281x as ws281x
 from rpi_ws281x import PixelStrip, Color
 
@@ -45,19 +47,10 @@ def number_is_even(number):
 
 
 class Matrix:
-
     def __init__(self):
         # Create pixel object
-        self.leds = PixelStrip(
-            LED_COUNT,
-            GPIO_PIN,
-            TARGET_FREQ,
-            DMA,
-            INVERTED,
-            BRIGHTNESS,
-            CHANNEL,
-            strip_type=STRIP_TYPE
-        )
+        self.leds = PixelStrip(LED_COUNT, GPIO_PIN, TARGET_FREQ, DMA, INVERTED, BRIGHTNESS, CHANNEL,
+            strip_type=STRIP_TYPE)
         self.leds.begin()
         clear(self.leds)
 

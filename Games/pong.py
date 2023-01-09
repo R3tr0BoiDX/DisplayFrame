@@ -114,6 +114,7 @@ def main():
         display.show()
         time.sleep(CLOCK_SPEED)
 
+    matrix.blink(3, 0.5, display)
     print("game over")
 
 
