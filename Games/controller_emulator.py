@@ -16,7 +16,7 @@ from Games.bit_ops import set_bit
 
 SIZE = (256, 224)
 UDP_IP = "192.168.2.102"
-UDP_PORT = 5005
+UDP_PORT = 5004
 
 pygame.init()
 dis = pygame.display.set_mode(SIZE)

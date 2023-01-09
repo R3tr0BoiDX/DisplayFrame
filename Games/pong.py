@@ -83,8 +83,6 @@ def main():
                         missed = False
 
             game_over = missed
-            if game_over:
-                break
 
         # switch direction vertically
         if ball_pos_y > matrix.LED_HEIGHT - ball_offset_vertical - 2 or ball_pos_y < ball_offset_vertical + 2:
