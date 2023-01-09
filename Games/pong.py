@@ -85,9 +85,8 @@ def main():
     input_p2.current_input = bit_ops.clear_bit(input_p2.current_input, 6)
 
     # main loop
-    game_over = False
     round_over = False
-    while not game_over:
+    while True:
         while not round_over:
             matrix.flush(display)
 
@@ -151,21 +150,24 @@ def main():
         # round over. reset and start next round
         matrix.blink(1, BLINK_DELAY_GAME_OVER, display)
 
-        # todo: redudant
+        # todo: redundant
         ball_pos_x = matrix.LED_WIDTH // 2
         ball_pos_y = matrix.LED_HEIGHT // 2
         ball_dir_x = random.choice([-1, 1])
         ball_dir_y = random.choice([-1, 1])
         p1_pos_y = matrix.LED_HEIGHT // 2
 
-        # render points
+        # points
         for i in range(p1_points):
             matrix.set_pixel((0, points_pos_min_y - i), WHITE, display)
         for i in range(p2_points):
             matrix.set_pixel((matrix.LED_WIDTH, points_pos_min_y - i), WHITE, display)
         display.show()
 
-        # wait for either player to press start, todo: redudant
+        if p1_points == 3 or p2_points == 3:
+            break
+
+        # wait for either player to press start, todo: redundant
         while not bit_ops.check_bit(input_p1.current_input, 6) and not bit_ops.check_bit(input_p2.current_input, 6):
             time.sleep(0.5)
         input_p1.current_input = bit_ops.clear_bit(input_p1.current_input, 6)
@@ -176,7 +178,7 @@ def main():
     print("game over")
     matrix.blink(BLINK_COUNT_GAME_OVER, BLINK_DELAY_GAME_OVER, display)
 
-    # wait for either player to press start, todo: redudant
+    # wait for either player to press start, todo: redundant
     while not bit_ops.check_bit(input_p1.current_input, 6) and not bit_ops.check_bit(input_p2.current_input, 6):
         time.sleep(0.5)
     input_p1.current_input = bit_ops.clear_bit(input_p1.current_input, 6)
