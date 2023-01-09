@@ -86,6 +86,7 @@ class Pong:
             if self.ball_pos_y == player_pos_y + i:
                 self.ball_dir_x *= -1
                 return False
+        return True
 
     def get_input(self):
         if network_gamepad.check_bit(self.input_p1.current_input, 0):  # up
@@ -144,6 +145,7 @@ class Pong:
                         missed = self.check_collision(self.p1_pos_y)  # todo: player two
                         if missed:
                             self.p1_points += 1
+
                     round_over = missed
 
                 # switch direction vertically
