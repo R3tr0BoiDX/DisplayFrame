@@ -69,7 +69,10 @@ def main():
                 else:
                     print("miss")
             else:
-                print("check player one")
+                if ball_pos_y == player_one_pos_y or ball_pos_y == player_one_pos_y + 1:
+                    print("coll")
+                else:
+                    print("miss")
 
             ball_dir_x *= -1
 
