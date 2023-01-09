@@ -160,9 +160,9 @@ def main():
 
         # render points
         for i in range(p1_points):
-            matrix.set_pixel((1, points_pos_min_y - i), WHITE, display)
+            matrix.set_pixel((0, points_pos_min_y - i), WHITE, display)
         for i in range(p2_points):
-            matrix.set_pixel((matrix.LED_WIDTH-1, points_pos_min_y - i), WHITE, display)
+            matrix.set_pixel((matrix.LED_WIDTH, points_pos_min_y - i), WHITE, display)
         display.show()
 
         # wait for either player to press start, todo: redudant
