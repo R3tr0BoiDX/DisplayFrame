@@ -31,9 +31,13 @@ def setup_input(port):
 class Input:
     def __init__(self):
         self.current_input = 0
+        self.running = True
 
     def get_input(self, sock):
-        while True:
+        while self.running:
             data, addr = sock.recvfrom(1)
             control = int.from_bytes(data, byteorder='big', signed=False)
             self.current_input = combine(self.current_input, control)
+
+    def stop(self):
+        self.running = False

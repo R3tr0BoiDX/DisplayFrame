@@ -186,5 +186,9 @@ if __name__ == '__main__':
     p1 = network_gamepad.setup_input(network_gamepad.UDP_PORT_PLAYER_ONE)
     p2 = network_gamepad.setup_input(network_gamepad.UDP_PORT_PLAYER_TWO)
 
-    while True:
-        Pong(p1, p2).play()
+    # start game
+    Pong(p1, p2).play()
+
+    # kill threads
+    p1.stop()
+    p2.stop()
