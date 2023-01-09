@@ -62,8 +62,13 @@ def main():
         matrix.set_pixel((ball_pos_x, ball_pos_y), WHITE, display)
 
         if ball_pos_x > matrix.LED_WIDTH - ball_offset_horizontal - 1 or ball_pos_x < ball_offset_horizontal + 1:
+
+            if ball_dir_x > 0:
+                print("check player two")
+            else:
+                print("check player one")
+
             ball_dir_x *= -1
-            print("switch direction")
 
         if ball_pos_y > matrix.LED_HEIGHT - ball_offset_vertical - 2 or ball_pos_y < ball_offset_vertical + 2:
             ball_dir_y *= -1
