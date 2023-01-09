@@ -66,29 +66,31 @@ def main():
         # draw ball
         matrix.set_pixel((ball_pos_x, ball_pos_y), WHITE, display)
 
+        # check collision and switch direction horizontally
         if ball_pos_x > matrix.LED_WIDTH - ball_offset_horizontal - 1 or ball_pos_x < ball_offset_horizontal + 1:
 
-            switched = False
+            missed = True
             if ball_dir_x < 0:
                 for i in range(0, player_height):
                     if ball_pos_y == player_one_pos_y + i:
                         ball_dir_x *= -1
-                        switched = True
-
-                if not switched:
-                    print("miss")
+                        missed = False
 
             else:
                 for i in range(0, player_height):
                     if ball_pos_y == player_one_pos_y + i:  # todo: player two
                         ball_dir_x *= -1
-                        switched = True
-                if not switched:
-                    print("miss")
+                        missed = False
 
+            game_over = missed
+            if game_over:
+                break
+
+        # switch direction vertically
         if ball_pos_y > matrix.LED_HEIGHT - ball_offset_vertical - 2 or ball_pos_y < ball_offset_vertical + 2:
             ball_dir_y *= -1
 
+        # move ball
         ball_pos_x += (1 * ball_dir_x)
         ball_pos_y += (1 * ball_dir_y)
 
@@ -113,6 +115,8 @@ def main():
         # game logic
         display.show()
         time.sleep(CLOCK_SPEED)
+
+    print("game over")
 
 
 if __name__ == '__main__':
