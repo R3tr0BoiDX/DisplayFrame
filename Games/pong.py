@@ -143,6 +143,13 @@ def main():
             for i in range(0, player_height):
                 matrix.set_pixel((matrix.LED_WIDTH - player_offset_x, p1_pos_y + i), WHITE, display)
 
+            # points
+            for i in range(p1_points):
+                matrix.set_pixel((0, points_pos_min_y - i), WHITE, display)
+            for i in range(p2_points):
+                matrix.set_pixel((matrix.LED_WIDTH - 1, points_pos_min_y - i), WHITE, display)  # todo: indexing bug
+            display.show()
+
             # game logic
             display.show()
             time.sleep(CLOCK_SPEED)
@@ -157,13 +164,7 @@ def main():
         ball_dir_y = random.choice([-1, 1])
         p1_pos_y = matrix.LED_HEIGHT // 2
 
-        # points
-        for i in range(p1_points):
-            matrix.set_pixel((0, points_pos_min_y - i), WHITE, display)
-        for i in range(p2_points):
-            matrix.set_pixel((matrix.LED_WIDTH - 1, points_pos_min_y - i), WHITE, display)  # todo: indexing bug
-        display.show()
-
+        # win condition
         if p1_points == 3 or p2_points == 3:
             break
 
