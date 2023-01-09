@@ -25,9 +25,7 @@ class Input:
         while True:
             data, addr = sock.recvfrom(1)
             control = int.from_bytes(data, byteorder='big', signed=False)
-
-            if control == 1 or control == 2:  # only care about ups and downs, lul
-                self.current_input = bit_ops.combine(self.current_input, control)
+            self.current_input = bit_ops.combine(self.current_input, control)
 
 
 def main():
