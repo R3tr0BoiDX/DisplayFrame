@@ -73,8 +73,7 @@ def main():
 
     # wait for either player to press start
     display.show()
-    while not bit_ops.check_bit(input_p1.current_input, 6) or not bit_ops.check_bit(input_p2.current_input, 6):
-        print(input_p1.current_input)
+    while not bit_ops.check_bit(input_p1.current_input, 6) and not bit_ops.check_bit(input_p2.current_input, 6):
         time.sleep(0.5)
 
 
