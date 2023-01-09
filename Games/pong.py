@@ -73,7 +73,7 @@ def main():
 
     # wait for either player to press start
     display.show()
-    while not bit_ops.check_bit(input_p1.current_input, 64) and not bit_ops.check_bit(input_p2.current_input, 64):
+    while not bit_ops.check_bit(input_p1.current_input, 64):
         print("wait for start to be pressed")
         time.sleep(0.5)
 
