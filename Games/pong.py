@@ -7,7 +7,7 @@ import bit_ops
 import matrix
 
 UDP_PORT = 5005
-CLOCK_SPEED = 0.1  # s
+CLOCK_SPEED = 0.5  # s
 
 WHITE = (255, 255, 255)
 
@@ -64,7 +64,10 @@ def main():
         if ball_pos_x > matrix.LED_WIDTH - ball_offset_horizontal - 1 or ball_pos_x < ball_offset_horizontal + 1:
 
             if ball_dir_x > 0:
-                print("check player two")
+                if ball_pos_y == player_one_pos_y or ball_pos_y == player_one_pos_y + 1:
+                    print("coll")
+                else:
+                    print("miss")
             else:
                 print("check player one")
 
