@@ -4,8 +4,6 @@ import time
 import matrix
 import network_gamepad
 
-UDP_PORT_PLAYER_ONE = 5004
-UDP_PORT_PLAYER_TWO = 5005
 CLOCK_SPEED = 0.1  # s
 
 BLINK_COUNT_ROUND_OVER = 1
@@ -27,9 +25,9 @@ WHITE = (255, 255, 255)
 
 class Pong:
 
-    def __init__(self):
-        self.input_p2 = None
-        self.input_p1 = None
+    def __init__(self, input_p1, input_p2):
+        self.input_p2 = input_p2
+        self.input_p1 = input_p1
         self.p2_points = None
         self.p1_points = None
         self.display = None
@@ -100,12 +98,6 @@ class Pong:
                 self.p1_pos_y += 1
 
     def play(self):
-        # setup player one input
-        self.input_p1 = network_gamepad.setup_input(UDP_PORT_PLAYER_ONE)
-
-        # setup player two input
-        self.input_p2 = network_gamepad.setup_input(UDP_PORT_PLAYER_TWO)
-
         # setup display
         self.display = matrix.Matrix().leds
 
@@ -190,5 +182,9 @@ class Pong:
 
 
 if __name__ == '__main__':
+    # setup player input
+    p1 = network_gamepad.setup_input(network_gamepad.UDP_PORT_PLAYER_ONE)
+    p2 = network_gamepad.setup_input(network_gamepad.UDP_PORT_PLAYER_TWO)
+
     while True:
-        Pong().play()
+        Pong(p1, p2).play()

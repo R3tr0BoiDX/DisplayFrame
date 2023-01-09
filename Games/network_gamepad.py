@@ -1,6 +1,8 @@
 import socket
 import threading
 
+UDP_PORT_PLAYER_ONE = 5004
+UDP_PORT_PLAYER_TWO = 5005
 
 def set_bit(value, bit):
     return value | (1 << bit)
