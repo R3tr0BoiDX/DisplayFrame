@@ -22,11 +22,15 @@ def blink(count, delay, leds: PixelStrip):
         current_colors.append(leds.getPixelColor(i))
 
     for _ in range(count):
+        # clear
         clear(leds)
         time.sleep(delay)
+
+        # restore
         for i in range(leds.numPixels()):
             leds.setPixelColor(i, current_colors[i])
         leds.show()
+        time.sleep(delay)
 
 
 def clear(leds):
