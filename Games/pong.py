@@ -22,8 +22,8 @@ class Input:
             data, addr = sock.recvfrom(1)
             control = int.from_bytes(data, byteorder='big', signed=False)
 
-            self.current_input = bit_ops.combine(self.current_input, control)
-            print("{:b}".format(self.current_input))
+            if control == 2 or control == 4:
+                self.current_input = bit_ops.combine(self.current_input, control)
 
 
 def main():
