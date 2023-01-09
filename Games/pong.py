@@ -12,6 +12,9 @@ CLOCK_SPEED = 0.1  # s
 
 WHITE = (255, 255, 255)
 
+BLINK_COUNT_GAME_OVER = 3
+BLINK_DELAY_GAME_OVER = 0.5  # ms
+
 
 class Input:
 
@@ -114,7 +117,7 @@ def main():
         display.show()
         time.sleep(CLOCK_SPEED)
 
-    matrix.blink(3, 1, display)
+    matrix.blink(BLINK_COUNT_GAME_OVER, BLINK_DELAY_GAME_OVER, display)
     print("game over")
 
 
