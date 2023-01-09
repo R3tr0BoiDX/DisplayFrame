@@ -73,12 +73,12 @@ def main():
         # player input
         if bit_ops.check_bit(recv_input.current_input, 0):  # up
             recv_input.current_input = bit_ops.clear_bit(recv_input.current_input, 0)
-            if player_one_pos_y > 0:
+            if player_one_pos_y > ball_offset_vertical:
                 player_one_pos_y -= 1
 
         if bit_ops.check_bit(recv_input.current_input, 1):  # down
             recv_input.current_input = bit_ops.clear_bit(recv_input.current_input, 1)
-            if player_one_pos_y < matrix.LED_HEIGHT:
+            if player_one_pos_y < matrix.LED_HEIGHT - ball_offset_vertical - player_height:
                 player_one_pos_y += 1
 
         for i in range(0, player_height):
