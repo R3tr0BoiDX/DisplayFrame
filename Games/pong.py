@@ -72,7 +72,7 @@ def main():
     #    if ball_pos_x > matrix.LED_WIDTH - offset_horizontal or ball_pos_x < offset_horizontal:
             #ball_dir_x *= -1
 
-        if ball_pos_y > matrix.LED_HEIGHT - offset_vertical or ball_pos_y < offset_vertical:
+        if ball_pos_y > matrix.LED_HEIGHT - offset_vertical -1  or ball_pos_y < offset_vertical + 1:
             ball_dir_y *= -1
 
 
