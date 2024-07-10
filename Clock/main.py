@@ -87,8 +87,8 @@ def display_resource(leds, image, sync, x_offset=0, y_offset=0, render=True):
             matrix.set_pixel(
                 x + x_offset + X_OFFSET_START,
                 y + y_offset + Y_OFFSET_START,
-                Color(int(r*255), int(g*255), int(b*255)),
-                leds
+                Color(int(r * 255), int(g * 255), int(b * 255)),
+                leds,
             )
 
     if render:
@@ -122,7 +122,7 @@ def display_time(leds, cur_time, colon, sync, render=True):
                     "colon",
                     sync,
                     x_offset=(i * graphics.DIGIT_IMAGE_WIDTH) + 1,
-                    render=False
+                    render=False,
                 )
             colon_offset = 2
 
@@ -131,7 +131,7 @@ def display_time(leds, cur_time, colon, sync, render=True):
             cur_time[i],
             sync,
             x_offset=(i * graphics.DIGIT_IMAGE_WIDTH) + colon_offset,
-            render=False
+            render=False,
         )
 
     if render:
@@ -141,15 +141,33 @@ def display_time(leds, cur_time, colon, sync, render=True):
 class Main:
 
     def show_time(self):
-        display_time(self.matrix.leds, get_current_time(), self.colon, self.sync, render=False)
+        display_time(
+            self.matrix.leds, get_current_time(), self.colon, self.sync, render=False
+        )
         self.colon = not self.colon
 
     def show_weather(self):
-        display_weather(self.matrix.leds, self.weatherCode, self.sync, x_offset=X_OFFSET_WEATHER, render=False)
+        display_weather(
+            self.matrix.leds,
+            self.weatherCode,
+            self.sync,
+            x_offset=X_OFFSET_WEATHER,
+            render=False,
+        )
 
     def show_status_indicator(self):
-        internet_status_color = INTERNET_COLOR_CONNECTED if self.internet_status else INTERNET_COLOR_DISCONNECTED
-        set_specific_led(self.matrix.leds, INTERNET_LED, internet_status_color, self.sync, render=False)
+        internet_status_color = (
+            INTERNET_COLOR_CONNECTED
+            if self.internet_status
+            else INTERNET_COLOR_DISCONNECTED
+        )
+        set_specific_led(
+            self.matrix.leds,
+            INTERNET_LED,
+            internet_status_color,
+            self.sync,
+            render=False,
+        )
 
     def set_current_brightness(self):
         matrix.set_brightness(get_current_brightness(self.sun), self.matrix.leds)
@@ -169,7 +187,9 @@ class Main:
         self.sun = weather_and_sun[1]
 
     def update_internet_connection(self):
-        threading.Timer(UPDATE_INTERNET_STATUS_INTERVAL, self.update_internet_connection).start()
+        threading.Timer(
+            UPDATE_INTERNET_STATUS_INTERVAL, self.update_internet_connection
+        ).start()
         self.internet_status = check_internet_connection()
 
     def signal_handler(self, sig, frame):
@@ -192,5 +212,5 @@ class Main:
         self.update_weather_and_sun()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     Main()

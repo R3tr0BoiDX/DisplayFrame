@@ -2,7 +2,7 @@ import json
 import requests
 
 URL = "https://api.openweathermap.org/data/2.5/weather"
-TEST_URL = "https://httpbin.org/get"
+TIMEOUT = 10
 
 
 def read_config():
@@ -19,7 +19,7 @@ def request_weather(_config):
         "lang": _config["lang"],
         "appid": _config["appid"]
     }
-    return requests.get(URL, args).text
+    return requests.get(URL, args, timeout=TIMEOUT).text
 
 
 def get_weather_code(_data):
