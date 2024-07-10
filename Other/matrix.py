@@ -1,3 +1,5 @@
+import time
+
 import _rpi_ws281x as ws281x
 from rpi_ws281x import PixelStrip, Color
 
@@ -10,7 +12,7 @@ DMA = 10
 LED_COUNT = (LED_WIDTH * LED_HEIGHT)
 STRIP_TYPE = ws281x.WS2812_STRIP
 INVERTED = False
-BRIGHTNESS = 2
+BRIGHTNESS = 8
 CHANNEL = 0
 
 
@@ -25,8 +27,8 @@ def flush(leds):
         leds.setPixelColor(i, Color(0, 0, 0))
 
 
-def set_pixel(x, y, color, leds):
-    leds.setPixelColor(led_matrix_translation(x, y), color)
+def set_pixel(x, y, color, leds: PixelStrip):
+    leds.setPixelColor(led_matrix_translation(x, y), Color(color[0], color[1], color[2]))
 
 
 def set_brightness(brightness, leds):
@@ -45,19 +47,10 @@ def number_is_even(number):
 
 
 class Matrix:
-
     def __init__(self):
         # Create pixel object
-        self.leds = PixelStrip(
-            LED_COUNT,
-            GPIO_PIN,
-            TARGET_FREQ,
-            DMA,
-            INVERTED,
-            BRIGHTNESS,
-            CHANNEL,
-            strip_type=STRIP_TYPE
-        )
+        self.leds = PixelStrip(LED_COUNT, GPIO_PIN, TARGET_FREQ, DMA, INVERTED, BRIGHTNESS, CHANNEL,
+            strip_type=STRIP_TYPE)
         self.leds.begin()
         clear(self.leds)
 

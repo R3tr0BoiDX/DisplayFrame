@@ -1,8 +1,10 @@
+import time
+
 import _rpi_ws281x as ws281x
 from rpi_ws281x import PixelStrip, Color
 
 LED_HEIGHT = 8
-LED_WIDTH = 32
+LED_WIDTH = 28
 
 TARGET_FREQ = ws281x.WS2811_TARGET_FREQ
 GPIO_PIN = 18
@@ -10,8 +12,25 @@ DMA = 10
 LED_COUNT = (LED_WIDTH * LED_HEIGHT)
 STRIP_TYPE = ws281x.WS2812_STRIP
 INVERTED = False
-BRIGHTNESS = 2
+BRIGHTNESS = 8
 CHANNEL = 0
+
+
+def blink(count, delay, leds: PixelStrip):
+    current_colors = []
+    for i in range(leds.numPixels()):
+        current_colors.append(leds.getPixelColor(i))
+
+    for _ in range(count):
+        # clear
+        clear(leds)
+        time.sleep(delay)
+
+        # restore
+        for i in range(leds.numPixels()):
+            leds.setPixelColor(i, current_colors[i])
+        leds.show()
+        time.sleep(delay)
 
 
 def clear(leds):
@@ -25,8 +44,8 @@ def flush(leds):
         leds.setPixelColor(i, Color(0, 0, 0))
 
 
-def set_pixel(x, y, color, leds):
-    leds.setPixelColor(led_matrix_translation(x, y), color)
+def set_pixel(pos, color, leds: PixelStrip):
+    leds.setPixelColor(led_matrix_translation(pos[0], pos[1]), Color(color[0], color[1], color[2]))
 
 
 def set_brightness(brightness, leds):
