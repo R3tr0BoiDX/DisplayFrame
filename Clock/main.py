@@ -30,9 +30,7 @@ INTERNET_COLOR_CONNECTED = Color(0, 0, 0)  # black
 
 def check_internet_connection(host="8.8.8.8", port=53, timeout=3):
     """
-    Host: 8.8.8.8 (google-public-dns-a.google.com)
-    OpenPort: 53/tcp
-    Service: domain (DNS/TCP)
+    Ping Google DNS to check internet connection
     By 7h3rAm from https://stackoverflow.com/a/33117579
     """
     try:
@@ -56,7 +54,7 @@ def get_current_brightness(_sun):
         return NIGHT_BRIGHTNESS
 
 
-def set_specific_led(leds, index, color, sync, render=True):
+def set_specific_led(leds, index, color, render=True):
     matrix.set_pixel(index[0], index[1], color, leds)
 
     if render:
@@ -165,7 +163,6 @@ class Main:
             self.matrix.leds,
             INTERNET_LED,
             internet_status_color,
-            self.sync,
             render=False,
         )
 
